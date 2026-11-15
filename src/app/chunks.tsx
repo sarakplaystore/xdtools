@@ -4,6 +4,32 @@ const KEY = 'xd-chunk-reload';
 /** A reload that happened this recently did not help, so do not try it again. */
 const RETRY_AFTER_MS = 60_000;
 
+/** pdf.js: `Unable to load ${what} data at: ${url}`; `what` is one of its own fixed names. */
+const PDFJS_LOAD = /Unable to load (?:CMap|standard font|wasm|ICC|binary) data at:/i;
+/** Chrome, for a lazy page: `error loading dynamically imported module: ${url}`. */
+const LAZY_PAGE = /error loading dynamically imported module:\s*\S+\/assets\//i;
+/** The browser, for a `fetch()` that got nothing: the whole message is this and nothing else. */
+const FETCH_FAILED = /^Failed to fetch$/i;
+
+/**
+ * True for a failure that means a file this deployment should serve is not there: a page script,
+ * the PDF worker, a font character map, a WebAssembly module.
+ *
+ * A new deployment renames the hashed files in `/assets/` and deletes the old ones, so a tab
+ * opened before it asks for names that no longer exist. Only the wording of the wrapper that
+ * failed to load the file is matched — never text that came out of a PDF, which can say anything
+ * and must not cost the reader a reload.
+ */
+export function isMissingAssetError(error: unknown): boolean {
+  let e: unknown = error;
+  for (let depth = 0; e && depth < 4; depth++) {
+    const msg = e instanceof Error ? e.message : typeof e === 'string' ? e : '';
+    if (PDFJS_LOAD.test(msg) || LAZY_PAGE.test(msg) || FETCH_FAILED.test(msg.trim())) return true;
+    e = (e as { cause?: unknown }).cause;
+  }
+  return false;
+}
+
 /**
  * Handles a page script that failed to download.
  *
