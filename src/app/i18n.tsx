@@ -31,7 +31,7 @@ const en = {
   'how.2.t': 'Fonts are matched',
   'how.2.d': 'Each font in the file is identified and verified glyph by glyph.',
   'how.3.t': 'Edit & download',
-  'how.3.d': 'Change any line. Only what you edit is rewritten; the rest stays byte-for-byte.',
+  'how.3.d': 'Change any line. Only what you edit is rewritten; the rest of the page stays as it was.',
   'home.fonts': 'Khmer fonts built in',
   'home.fonts.sub': 'Recognised instantly, even offline. Thousands more are fetched from Google Fonts on demand.',
   soon: 'Soon',

@@ -30,8 +30,24 @@ npm run preview    # serve dist/ on http://localhost:4173
 Needs Node 22.13 or newer. `npm run dev` and `npm run build` first copy the files pdf.js needs at run time
 (character maps, standard fonts) from `node_modules` into `public/pdfjs/`, which is not committed.
 
-Deploying: it is a static site. `vercel.json` is set up for Vercel (Vite preset, single-page
-rewrites, long cache for fonts); any static host works if unknown paths fall back to `index.html`.
+## Deployment
+
+Live at **https://xdtools-eight.vercel.app**, served by the Vercel project `xdtools`, which is
+linked to this repository with `main` as the production branch.
+
+- `vercel.json` holds everything Vercel needs: the build command (`npm run build`), the output
+  folder (`dist`), the rule that sends unknown paths to `index.html` (the site is a single-page
+  app) and a one-week browser cache for the font and pdf.js files.
+- The build runs on the newest Node version Vercel offers that satisfies `engines` in
+  `package.json`.
+- Automatic deployments from GitHub are switched off in the Vercel project, so pushing or merging
+  does not publish by itself. A new version goes live when a production deployment of `main` is
+  created in Vercel.
+- After a new version is published, a tab that was opened earlier reloads itself once when it
+  needs a script that no longer exists.
+
+Any other static host works too, as long as unknown paths fall back to `index.html` and requests
+under `/assets/` that do not match a file return 404.
 
 ## What the PDF editor does
 
@@ -76,7 +92,8 @@ rewrites, long cache for fonts); any static host works if unknown paths fall bac
 - **Khmer OS 5.0** (12 fonts) — LGPL 2.1 or later, © Danh Hong and Open Forum of Cambodia.
 - **Battambang, Hanuman, Kantumruy Pro, Koulen, Moul, Noto Sans Khmer, Siemreap** — SIL Open Font
   License 1.1.
-- **Liberation Sans** comes with pdf.js (SIL OFL 1.1).
+- **Liberation Sans** 1.07 comes with pdf.js, under the Liberation Fonts licence (GPL v2 with an
+  exception that allows embedding the font in documents).
 
 Details and licence texts: [`public/fonts/NOTICE.txt`](public/fonts/NOTICE.txt).
 
