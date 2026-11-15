@@ -3,11 +3,12 @@ import { FlagKH, IconClose, IconGrid, IconHome, IconPdfEdit, Logo } from '../com
 import { Home } from '../pages/Home';
 import { NotFound } from '../pages/NotFound';
 import { Tools } from '../pages/Tools';
+import { PageBoundary, recoverMissingChunk } from './chunks';
 import { useI18n } from './i18n';
 import { Link, useRouter } from './router';
 
 // The editor pulls in the PDF and font engines; load it only when it is opened.
-const PdfEditorPage = lazy(() => import('../pages/PdfEditorPage'));
+const PdfEditorPage = lazy(() => import('../pages/PdfEditorPage').catch(recoverMissingChunk));
 
 export const PDF_ROUTE = '/tools/pdf-editor';
 
@@ -135,16 +136,29 @@ export function App() {
       )}
       <Header fixed={!isEditor} />
       <main className={'main' + (isEditor ? ' main--wide' : '')}>
-        <Suspense
+        <PageBoundary
+          resetKey={path}
           fallback={
-            <div className="page-loading">
-              <div className="boot__spin" />
-              <p>{t('loading')}</p>
-            </div>
+            <section className="sec sec--top sec--center" role="alert">
+              <h1 className="h1">{t('err.page.title')}</h1>
+              <p className="lead">{t('err.page.text')}</p>
+              <button type="button" className="btn btn--dark" onClick={() => window.location.reload()}>
+                {t('err.page.reload')}
+              </button>
+            </section>
           }
         >
-          {page}
-        </Suspense>
+          <Suspense
+            fallback={
+              <div className="page-loading">
+                <div className="boot__spin" />
+                <p>{t('loading')}</p>
+              </div>
+            }
+          >
+            {page}
+          </Suspense>
+        </PageBoundary>
       </main>
       {!isEditor && <Footer />}
       {!isEditor && (

@@ -38,8 +38,10 @@ fonts/google/ - from Google Fonts (https://github.com/google/fonts)
 
 pdfjs/standard_fonts/ - copied from the pdfjs-dist package at build time
 ------------------------------------------------------------------------
-  Liberation Sans (SIL Open Font License 1.1) and the Foxit base fonts;
-  their licences sit next to them as LICENSE_LIBERATION and LICENSE_FOXIT.
+  Liberation Sans 1.07, Copyright (c) 2007 Red Hat, Inc., under the
+  Liberation Fonts licence (GNU GPL version 2 with an exception that lets
+  the font be embedded in documents), and the Foxit base fonts. Their
+  licences sit next to them as LICENSE_LIBERATION and LICENSE_FOXIT.
 
 Fonts fetched on demand
 -----------------------
