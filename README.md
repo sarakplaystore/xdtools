@@ -40,9 +40,8 @@ linked to this repository with `main` as the production branch.
   app) and a one-week browser cache for the font and pdf.js files.
 - The build runs on the newest Node version Vercel offers that satisfies `engines` in
   `package.json`.
-- Automatic deployments from GitHub are switched off in the Vercel project, so pushing or merging
-  does not publish by itself. A new version goes live when a production deployment of `main` is
-  created in Vercel.
+- Vercel builds every push to GitHub. Commits on `main` are published to the address above;
+  other branches get a preview address that only members of the Vercel team can open.
 - After a new version is published, a tab that was opened earlier reloads itself once when it
   needs a script that no longer exists.
 
