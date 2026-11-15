@@ -63,6 +63,13 @@ rewrites, long cache for fonts); any static host works if unknown paths fall bac
 - Classic PDF fonts that the file only names (Helvetica, Times, Courier) are drawn with
   metric-compatible stand-ins, exactly as PDF viewers do.
 - Looking fonts up online needs a connection; offline, only the shipped fonts are used.
+- When the original font cannot be found, the stand-in is used at the same point size, and some
+  typefaces are drawn much smaller or larger than others at the same size (TH Sarabun next to
+  Sarabun, for example). The new words can then look bigger or smaller than their neighbours;
+  change the size in the edit card.
+- The edit box shows the characters the PDF says its glyphs stand for. Some files get this wrong
+  (a Word-made Thai test file reads า as ำ). Letters you do not touch are still drawn as before.
+  Khmer is not affected when the font is matched exactly, because it is read from the glyphs.
 
 ## Fonts shipped with the site
 

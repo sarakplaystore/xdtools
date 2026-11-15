@@ -77,7 +77,7 @@ const ALIASES: Record<string, string[]> = {
   khmermn: ['notoserifkhmer'], daunpenh: ['khmeros'], moolboran: ['khmerossiemreap'],
   khmerosmoul: ['khmerosmuol'], khmerosmoullight: ['khmerosmuollight'], khmerosmoulpali: ['khmerosmuolpali'],
   khmerosmetalchrieng: ['khmerosmc'], khmerossystem: ['khmerossys'],
-  thsarabunnew: ['sarabun'], thsarabunpsk: ['sarabun'], thsarabun: ['sarabun'], angsananew: ['notoserifthai'], cordianew: ['notosansthai'],
+  thsarabunnew: ['sarabun'], thsarabunpsk: ['sarabun'], thsarabun: ['sarabun'], thsarabunit: ['sarabun'], angsananew: ['notoserifthai'], cordianew: ['notosansthai'],
   phetsarathot: ['notosanslao'], saysetthaot: ['notosanslao'], pyidaungsu: ['notosansmyanmar'], myanmar3: ['notosansmyanmar'],
   simsun: ['notoserifsc'], microsoftyahei: ['notosanssc'], mingliu: ['notoseriftc'], msgothic: ['notosansjp'], msmincho: ['notoserifjp'],
   malgungothic: ['notosanskr'], mangal: ['notosansdevanagari'], nirmalaui: ['notosansdevanagari'],
