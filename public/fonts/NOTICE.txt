@@ -1,0 +1,49 @@
+Fonts served with xdtools
+=========================
+
+These fonts are redistributed unmodified. Each file also carries its own
+copyright and licence statement in its name table.
+
+fonts/khmeros/ - Khmer OS fonts, release 5.0
+--------------------------------------------
+  Khmer OS, Khmer OS System, Khmer OS Battambang, Khmer OS Bokor,
+  Khmer OS Content, Khmer OS Fasthand, Khmer OS Freehand,
+  Khmer OS Metal Chrieng, Khmer OS Muol, Khmer OS Muol Light,
+  Khmer OS Muol Pali, Khmer OS Siemreap
+
+  Copyright 2005-2007 Danh Hong
+  Copyright 2005 Open Forum of Cambodia (KhmerOS project, www.khmeros.info)
+  Licence: GNU Lesser General Public License, version 2.1 or (at your
+  option) any later version - see licenses/LGPL-2.1.txt
+  Source: https://github.com/KhmerSoftwareInitiative/khmer-unicode-fonts
+
+fonts/google/ - from Google Fonts (https://github.com/google/fonts)
+-------------------------------------------------------------------
+  Battambang     Copyright 2019 The Battambang Khmer Project Authors
+                 (https://github.com/danhhong/Battambang)
+  Hanuman        Copyright 2019 The Hanuman Project Authors
+                 (https://github.com/danhhong/Hanuman)
+  Kantumruy Pro  Copyright 2022 The Kantumruy Project Authors
+                 (https://www.github.com/sovichet/kantumruy-pro)
+  Koulen         Copyright 2019 The Koulen Project Authors
+                 (https://github.com/danhhong/Koulen)
+  Moul           Copyright 2020 The Moul Project Authors
+                 (https://github.com/danhhong/Moul)
+  Noto Sans Khmer  Copyright 2022 The Noto Project Authors
+                 (https://github.com/notofonts/khmer)
+  Siemreap       Copyright (c) 2010, Danh Hong (khmertype.blogspot.com),
+                 with Reserved Font Name Siemreap.
+
+  Licence: SIL Open Font License, version 1.1 - see licenses/OFL-1.1.txt
+
+pdfjs/standard_fonts/ - copied from the pdfjs-dist package at build time
+------------------------------------------------------------------------
+  Liberation Sans (SIL Open Font License 1.1) and the Foxit base fonts;
+  their licences sit next to them as LICENSE_LIBERATION and LICENSE_FOXIT.
+
+Fonts fetched on demand
+-----------------------
+When a PDF uses a font that is not listed above, the editor can download
+it from the Khmer Software Initiative archive or from Google Fonts (both
+via GitHub). Those files stay under their own licences (LGPL / OFL /
+Apache 2.0, as stated in each font).
