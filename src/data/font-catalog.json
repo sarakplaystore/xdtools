@@ -1,0 +1,1809 @@
+{
+ "generated": "2026-11-15",
+ "fonts": [
+  {
+   "id": "b:google/Battambang-Bold.ttf",
+   "family": "Battambang",
+   "style": "Bold",
+   "weight": 700,
+   "italic": false,
+   "keys": [
+    "battambang",
+    "battambangbold"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 8.002; ttfautohi",
+   "source": "bundled",
+   "label": "Built-in · Google Fonts",
+   "url": "google/Battambang-Bold.ttf"
+  },
+  {
+   "id": "b:google/Battambang-Regular.ttf",
+   "family": "Battambang",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "battambang",
+    "battambangregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 8.002; ttfautohi",
+   "source": "bundled",
+   "label": "Built-in · Google Fonts",
+   "url": "google/Battambang-Regular.ttf"
+  },
+  {
+   "id": "b:google/Hanuman-VF.ttf",
+   "family": "Hanuman",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "hanuman",
+    "hanumanregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 9.000",
+   "axes": {
+    "wght": [
+     100,
+     900
+    ]
+   },
+   "source": "bundled",
+   "label": "Built-in · Google Fonts",
+   "url": "google/Hanuman-VF.ttf"
+  },
+  {
+   "id": "b:google/KantumruyPro-VF.ttf",
+   "family": "Kantumruy Pro",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "kantumruypro",
+    "kantumruyproregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "axes": {
+    "wght": [
+     100,
+     700
+    ]
+   },
+   "source": "bundled",
+   "label": "Built-in · Google Fonts",
+   "url": "google/KantumruyPro-VF.ttf"
+  },
+  {
+   "id": "b:google/Koulen-Regular.ttf",
+   "family": "Koulen",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "koulen",
+    "koulenregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "Version 8.000; ttfautohi",
+   "source": "bundled",
+   "label": "Built-in · Google Fonts",
+   "url": "google/Koulen-Regular.ttf"
+  },
+  {
+   "id": "b:google/Moul-Regular.ttf",
+   "family": "Moul",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "moul",
+    "moulregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "Version 8.002; ttfautohi",
+   "source": "bundled",
+   "label": "Built-in · Google Fonts",
+   "url": "google/Moul-Regular.ttf"
+  },
+  {
+   "id": "b:google/NotoSansKhmer-VF.ttf",
+   "family": "Noto Sans Khmer",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "notosanskhmer",
+    "notosanskhmerregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "sans",
+   "version": "Version 2.004",
+   "axes": {
+    "wght": [
+     100,
+     900
+    ],
+    "wdth": [
+     62.5,
+     100
+    ]
+   },
+   "source": "bundled",
+   "label": "Built-in · Google Fonts",
+   "url": "google/NotoSansKhmer-VF.ttf"
+  },
+  {
+   "id": "b:google/Siemreap-Regular.ttf",
+   "family": "Siemreap",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "siemreap",
+    "siemreapregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 6.00 December 28",
+   "source": "bundled",
+   "label": "Built-in · Google Fonts",
+   "url": "google/Siemreap-Regular.ttf"
+  },
+  {
+   "id": "b:khmeros/KhmerOS.ttf",
+   "family": "Khmer OS",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmeros",
+    "khmerosregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "3.02 2006",
+   "source": "bundled",
+   "label": "Built-in · Khmer OS 5.0",
+   "url": "khmeros/KhmerOS.ttf"
+  },
+  {
+   "id": "b:khmeros/KhmerOS_battambang.ttf",
+   "family": "Khmer OS Battambang",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosbattambang",
+    "khmerosbattambangregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "1.10 2007",
+   "source": "bundled",
+   "label": "Built-in · Khmer OS 5.0",
+   "url": "khmeros/KhmerOS_battambang.ttf"
+  },
+  {
+   "id": "b:khmeros/KhmerOS_bokor.ttf",
+   "family": "Khmer OS Bokor",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosbokor",
+    "khmerosbokorregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "1.10 2007",
+   "source": "bundled",
+   "label": "Built-in · Khmer OS 5.0",
+   "url": "khmeros/KhmerOS_bokor.ttf"
+  },
+  {
+   "id": "b:khmeros/KhmerOS_content.ttf",
+   "family": "Khmer OS Content",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmeroscontent",
+    "khmeroscontentregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "1.10 2007",
+   "source": "bundled",
+   "label": "Built-in · Khmer OS 5.0",
+   "url": "khmeros/KhmerOS_content.ttf"
+  },
+  {
+   "id": "b:khmeros/KhmerOS_fasthand.ttf",
+   "family": "Khmer OS Fasthand",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosfasthand",
+    "khmerosfasthandregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "hand",
+   "version": "4.10 2007",
+   "source": "bundled",
+   "label": "Built-in · Khmer OS 5.0",
+   "url": "khmeros/KhmerOS_fasthand.ttf"
+  },
+  {
+   "id": "b:khmeros/KhmerOS_freehand.ttf",
+   "family": "Khmer OS Freehand",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosfreehand",
+    "khmerosfreehandregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "hand",
+   "version": "4.10 2007",
+   "source": "bundled",
+   "label": "Built-in · Khmer OS 5.0",
+   "url": "khmeros/KhmerOS_freehand.ttf"
+  },
+  {
+   "id": "b:khmeros/KhmerOS_metalchrieng.ttf",
+   "family": "Khmer OS Metal Chrieng",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosmetalchrieng",
+    "khmerosmc",
+    "khmerosmetalchriengregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "4.10 2007",
+   "source": "bundled",
+   "label": "Built-in · Khmer OS 5.0",
+   "url": "khmeros/KhmerOS_metalchrieng.ttf"
+  },
+  {
+   "id": "b:khmeros/KhmerOS_muol.ttf",
+   "family": "Khmer OS Muol",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosmuol",
+    "khmerosmuolregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "4.10 2007",
+   "source": "bundled",
+   "label": "Built-in · Khmer OS 5.0",
+   "url": "khmeros/KhmerOS_muol.ttf"
+  },
+  {
+   "id": "b:khmeros/KhmerOS_muollight.ttf",
+   "family": "Khmer OS Muol Light",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosmuollight",
+    "khmerosmuollightregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "1.00 2007",
+   "source": "bundled",
+   "label": "Built-in · Khmer OS 5.0",
+   "url": "khmeros/KhmerOS_muollight.ttf"
+  },
+  {
+   "id": "b:khmeros/KhmerOS_muolpali.ttf",
+   "family": "Khmer OS Muol Pali",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosmuolpali",
+    "khmerosmuolpaliregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "1.00 2007",
+   "source": "bundled",
+   "label": "Built-in · Khmer OS 5.0",
+   "url": "khmeros/KhmerOS_muolpali.ttf"
+  },
+  {
+   "id": "b:khmeros/KhmerOS_siemreap.ttf",
+   "family": "Khmer OS Siemreap",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerossiemreap",
+    "khmerossiemreapregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "1.00 2007",
+   "source": "bundled",
+   "label": "Built-in · Khmer OS 5.0",
+   "url": "khmeros/KhmerOS_siemreap.ttf"
+  },
+  {
+   "id": "b:khmeros/KhmerOS_sys.ttf",
+   "family": "Khmer OS System",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerossystem",
+    "khmerossys",
+    "khmerossystemregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "3.02 2006",
+   "source": "bundled",
+   "label": "Built-in · Khmer OS 5.0",
+   "url": "khmeros/KhmerOS_sys.ttf"
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOS.ttf",
+   "family": "Khmer OS",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmeros",
+    "khmerosregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 6.00 January 14,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOS.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSBassac.ttf",
+   "family": "Khmer OS Bassac",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosbassac",
+    "khmerosbassacregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "display",
+   "version": "Version 1.00 January 14,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSBassac.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSBattambang-Bold.ttf",
+   "family": "Khmer OS Battambang",
+   "style": "Bold",
+   "weight": 700,
+   "italic": false,
+   "keys": [
+    "khmerosbattambang",
+    "khmerosbattambangbold"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 6.00 January 14,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSBattambang-Bold.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSBattambang-Regular.ttf",
+   "family": "Khmer OS Battambang",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosbattambang",
+    "khmerosbattambangregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 6.00 January 6, ",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSBattambang-Regular.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSBokor.ttf",
+   "family": "Khmer OS Bokor",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosbokor",
+    "khmerosbokorregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "display",
+   "version": "Version 6.00 January 14,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSBokor.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSContent-Bold.ttf",
+   "family": "Khmer OS Content",
+   "style": "Bold",
+   "weight": 700,
+   "italic": false,
+   "keys": [
+    "khmeroscontent",
+    "khmeroscontentbold"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 6.00 January 14,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSContent-Bold.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSContent-Regular.ttf",
+   "family": "Khmer OS Content",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmeroscontent",
+    "khmeroscontentregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 6.00 January 14,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSContent-Regular.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSDangrek.ttf",
+   "family": "Khmer OS Dangrek",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosdangrek",
+    "khmerosdangrekregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "display",
+   "version": "Version 6.00 January 14,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSDangrek.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSFasthand.ttf",
+   "family": "Khmer OS Fasthand",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosfasthand",
+    "khmerosfasthandregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "hand",
+   "version": "Version 6.00 January 14,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSFasthand.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSFreehand.ttf",
+   "family": "Khmer OS Freehand",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosfreehand",
+    "khmerosfreehandregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "hand",
+   "version": "Version 6.00 January 14,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSFreehand.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSKangrey.ttf",
+   "family": "Khmer OS Kangrey",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmeroskangrey",
+    "khmeroskangreyregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "display",
+   "version": "Version 6.00 January 14,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSKangrey.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSKoulen.ttf",
+   "family": "Khmer OS Koulen",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmeroskoulen",
+    "khmeroskoulenregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "display",
+   "version": "Version 6.00 January 14,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSKoulen.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSMetalchrieng.ttf",
+   "family": "Khmer OS Metalchrieng",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosmetalchrieng",
+    "khmerosmetalchriengregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "display",
+   "version": "Version 6.00 January 14,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSMetalchrieng.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSMoul.ttf",
+   "family": "Khmer OS Moul",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosmoul",
+    "khmerosmoulregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "display",
+   "version": "Version 6.00 January 11,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSMoul.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSMoulpali.ttf",
+   "family": "Khmer OS Moulpali",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosmoulpali",
+    "khmerosmoulpaliregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "display",
+   "version": "Version 6.00 January 14,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSMoulpali.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSNew-Bold.ttf",
+   "family": "Khmer OS New",
+   "style": "Bold",
+   "weight": 700,
+   "italic": false,
+   "keys": [
+    "khmerosnew",
+    "khmerosnewbold"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 1.00 January 14,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSNew-Bold.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSNew-Regular.ttf",
+   "family": "Khmer OS New",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosnew",
+    "khmerosnewregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 1.00 January 13,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSNew-Regular.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/macos/KhmerOSSiemreap.ttf",
+   "family": "Khmer OS Siemreap",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerossiemreap",
+    "khmerossiemreapregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 6.00 January 14,",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/macos/KhmerOSSiemreap.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/pro/Kh-Battambang.ttf",
+   "family": "Kh Battambang",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khbattambang",
+    "khbattambangregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "2.10 2008",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/pro/Kh-Battambang.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/pro/Kh-Bokor.ttf",
+   "family": "Kh Bokor",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khbokor",
+    "khbokorregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "2.10 2008",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/pro/Kh-Bokor.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/pro/Kh-Content.ttf",
+   "family": "Kh Content",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khcontent",
+    "khcontentregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "2.10 2008",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/pro/Kh-Content.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/pro/Kh-Dangrek.ttf",
+   "family": "Kh Dangrek",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khdangrek",
+    "khdangrekregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "2.10 2008",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/pro/Kh-Dangrek.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/pro/Kh-Fasthand.ttf",
+   "family": "Kh Fasthand",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khfasthand",
+    "khfasthandregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "hand",
+   "version": "2.10 2008",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/pro/Kh-Fasthand.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/pro/Kh-Freehand.ttf",
+   "family": "Kh Freehand",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khfreehand",
+    "khfreehandregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "hand",
+   "version": "2.10 2008",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/pro/Kh-Freehand.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/pro/Kh-Kangrey.ttf",
+   "family": "Kh Kangrey",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khkangrey",
+    "khkangreyregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "2.10 2008",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/pro/Kh-Kangrey.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/pro/Kh-Koulen.ttf",
+   "family": "Kh Koulen",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khkoulen",
+    "khkoulenregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "2.10 2008",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/pro/Kh-Koulen.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/pro/Kh-KoulenL.ttf",
+   "family": "Kh KoulenL",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khkoulenl",
+    "khkoulenlregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "2.10 2008",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/pro/Kh-KoulenL.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/pro/Kh-Metal-Chrieng.ttf",
+   "family": "Kh Metal Chrieng",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmetalchrieng",
+    "khmetalchriengregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "2.10 2008",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/pro/Kh-Metal-Chrieng.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/pro/Kh-Muol-Pali.ttf",
+   "family": "Kh Muol Pali",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmuolpali",
+    "khmuolpaliregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "2.10 2008",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/pro/Kh-Muol-Pali.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/pro/Kh-Muol.ttf",
+   "family": "Kh Muol",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmuol",
+    "khmuolregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "2.10 2008",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/pro/Kh-Muol.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/pro/Kh-Siemreap.ttf",
+   "family": "Kh Siemreap",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khsiemreap",
+    "khsiemreapregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "2.10 2008",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/pro/Kh-Siemreap.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:additional/pro/Kh-System.ttf",
+   "family": "Kh System",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khsystem",
+    "khsystemregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "2.10 2008",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "additional/pro/Kh-System.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v3.1/KhmerOS.ttf",
+   "family": "Khmer OS",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmeros",
+    "khmerosregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "3.10 2005",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v3.1/KhmerOS.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v3.1/KhmerOSfasthand.ttf",
+   "family": "Khmer OS Freehand Rapid",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosfreehandrapid",
+    "khmerosfasthand",
+    "khmerosfreehandrapidregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "hand",
+   "version": "3.10 2005",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v3.1/KhmerOSfasthand.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v3.1/KhmerOSfreehand.ttf",
+   "family": "Khmer OS Freehand",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosfreehand",
+    "khmerosfreehandregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "hand",
+   "version": "3.10 2005",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v3.1/KhmerOSfreehand.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v3.1/KhmerOSmc.ttf",
+   "family": "Khmer OS Metal Chrieng",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosmetalchrieng",
+    "khmerosmc",
+    "khmerosmetalchriengregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "3.10 2005",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v3.1/KhmerOSmc.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v3.1/KhmerOSmuol.ttf",
+   "family": "Khmer OS Muol",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosmuol",
+    "khmerosmuolregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "3.10 2005",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v3.1/KhmerOSmuol.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v3.1/KhmerOSsys.ttf",
+   "family": "Khmer OS System",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerossystem",
+    "khmerossys",
+    "khmerossystemregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "3.10 2005",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v3.1/KhmerOSsys.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v4.0/KhmerOS.ttf",
+   "family": "Khmer OS",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmeros",
+    "khmerosregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "3.02 2006",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v4.0/KhmerOS.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v4.0/KhmerOSbattambang.ttf",
+   "family": "Khmer OS Battambang",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosbattambang",
+    "khmerosbattambangregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "1.00 2006",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v4.0/KhmerOSbattambang.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v4.0/KhmerOSbokor.ttf",
+   "family": "Khmer OS Bokor",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosbokor",
+    "khmerosbokorregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "1.0 2006",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v4.0/KhmerOSbokor.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v4.0/KhmerOSfasthand.ttf",
+   "family": "Khmer OS Fasthand",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosfasthand",
+    "khmerosfasthandregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "hand",
+   "version": "4.0 2006",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v4.0/KhmerOSfasthand.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v4.0/KhmerOSfreehand.ttf",
+   "family": "Khmer OS Freehand",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosfreehand",
+    "khmerosfreehandregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "hand",
+   "version": "4.0 2006",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v4.0/KhmerOSfreehand.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v4.0/KhmerOSmc.ttf",
+   "family": "Khmer OS Metal Chrieng",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosmetalchrieng",
+    "khmerosmc",
+    "khmerosmetalchriengregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "4.00 2006",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v4.0/KhmerOSmc.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v4.0/KhmerOSmuol.ttf",
+   "family": "Khmer OS Muol",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosmuol",
+    "khmerosmuolregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "4.00 2006",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v4.0/KhmerOSmuol.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v4.0/KhmerOSsys.ttf",
+   "family": "Khmer OS System",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerossystem",
+    "khmerossys",
+    "khmerossystemregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "3.02 2006",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v4.0/KhmerOSsys.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v5.0/KhmerOS.ttf",
+   "family": "Khmer OS",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmeros",
+    "khmerosregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "3.02 2006",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v5.0/KhmerOS.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v5.0/KhmerOS_battambang.ttf",
+   "family": "Khmer OS Battambang",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosbattambang",
+    "khmerosbattambangregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "1.10 2007",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v5.0/KhmerOS_battambang.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v5.0/KhmerOS_bokor.ttf",
+   "family": "Khmer OS Bokor",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosbokor",
+    "khmerosbokorregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "1.10 2007",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v5.0/KhmerOS_bokor.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v5.0/KhmerOS_content.ttf",
+   "family": "Khmer OS Content",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmeroscontent",
+    "khmeroscontentregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "1.10 2007",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v5.0/KhmerOS_content.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v5.0/KhmerOS_fasthand.ttf",
+   "family": "Khmer OS Fasthand",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosfasthand",
+    "khmerosfasthandregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "hand",
+   "version": "4.10 2007",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v5.0/KhmerOS_fasthand.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v5.0/KhmerOS_freehand.ttf",
+   "family": "Khmer OS Freehand",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosfreehand",
+    "khmerosfreehandregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "hand",
+   "version": "4.10 2007",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v5.0/KhmerOS_freehand.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v5.0/KhmerOS_metalchrieng.ttf",
+   "family": "Khmer OS Metal Chrieng",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosmetalchrieng",
+    "khmerosmc",
+    "khmerosmetalchriengregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "4.10 2007",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v5.0/KhmerOS_metalchrieng.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v5.0/KhmerOS_muol.ttf",
+   "family": "Khmer OS Muol",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosmuol",
+    "khmerosmuolregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "4.10 2007",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v5.0/KhmerOS_muol.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v5.0/KhmerOS_muollight.ttf",
+   "family": "Khmer OS Muol Light",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosmuollight",
+    "khmerosmuollightregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "1.00 2007",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v5.0/KhmerOS_muollight.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v5.0/KhmerOS_muolpali.ttf",
+   "family": "Khmer OS Muol Pali",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerosmuolpali",
+    "khmerosmuolpaliregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "display",
+   "version": "1.00 2007",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v5.0/KhmerOS_muolpali.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v5.0/KhmerOS_siemreap.ttf",
+   "family": "Khmer OS Siemreap",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerossiemreap",
+    "khmerossiemreapregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "1.00 2007",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v5.0/KhmerOS_siemreap.ttf"
+   ]
+  },
+  {
+   "id": "gh:KhmerSoftwareInitiative/khmer-unicode-fonts:fonts/v5.0/KhmerOS_sys.ttf",
+   "family": "Khmer OS System",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerossystem",
+    "khmerossys",
+    "khmerossystemregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "3.02 2006",
+   "source": "github",
+   "label": "GitHub · khmer-unicode-fonts",
+   "gh": [
+    "KhmerSoftwareInitiative/khmer-unicode-fonts",
+    "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
+    "fonts/v5.0/KhmerOS_sys.ttf"
+   ]
+  }
+ ]
+}

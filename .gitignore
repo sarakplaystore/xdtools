@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.vite/
+*.log
+.DS_Store
+.vercel/
+# copied from node_modules/pdfjs-dist by `npm run assets`
+public/pdfjs/
+# local scratch output from tests
+tests/.out/
