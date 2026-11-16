@@ -89,6 +89,12 @@ export const IconCompress = (p: P) => (
     <path d="M12 6v4m0 0-2-2m2 2 2-2M12 18v-4m0 0-2 2m2-2 2 2" />
   </Svg>
 );
+export const IconVideo = (p: P) => (
+  <Svg {...p}>
+    <rect x="3" y="6" width="13" height="12" rx="2.5" fill={TINT} />
+    <path d="m16 10.5 5-3v9l-5-3" />
+  </Svg>
+);
 export const IconSign = (p: P) => (
   <Svg {...p}>
     <path d="M3 17c2.5-6 4.5-9 6-9s.6 4-1 7c2-2.500 3.500-4 4.500-4s.5 2.500 1.500 2.500 1.500-1.500 3-1.500 1.500 1.500 4 1.500" />
