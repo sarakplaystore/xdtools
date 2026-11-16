@@ -41,7 +41,7 @@ function toUnicodeCMap(uni: Map<number, string>): string {
 export async function writeFont(ctx: PDFContext, use: NewFontUse, refs: FontRefs, tag: string): Promise<{ name: string; bytes: number }> {
   const font = use.font;
   const gids = [...use.gids].sort((a, b) => a - b);
-  const subset = await subsetFont(font.bytes, gids, font.variations);
+  const subset = await subsetFont(font.bytes, gids, font.variations, font.index);
   const m = font.metrics;
   const k = 1000 / m.upem;
 

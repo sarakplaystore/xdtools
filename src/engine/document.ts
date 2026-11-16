@@ -10,9 +10,10 @@ import { PDFArray, PDFContext, PDFDict, PDFDocument, PDFObject, PDFPageLeaf, PDF
 import { CompileEnv, LineEdit, LineOutcome, Replacement, TextBox, compilePage } from './edit/compile';
 import { FontRefs, allocFontRefs, deleteFontObjects, writeFont } from './edit/embed';
 import type { NewFontUse } from './edit/layout';
-import type { LoadedFont } from './font/hb';
+import { LoadedFont } from './font/hb';
 import { Candidate, CatalogEntry, FontCategory, FontLibrary, SCRIPT_FALLBACK } from './font/library';
-import { FontMatch, embeddedFont, makeMatch } from './font/match';
+import { FontMatch, MatchQuality, bestVariationFont, embeddedFont, makeMatch } from './font/match';
+import { ScrapeCandidate, ScrapePhase, scrapeClues, scrapePlan } from './font/scrape';
 import { ParsedFontName, parseFontName } from './font/names';
 import { Line, buildLines } from './model';
 import { PdfFont } from './pdf/fonts';
@@ -114,6 +115,35 @@ export interface OpenOptions {
   library: FontLibrary;
   password?: string;
   onProgress?: (stage: string, done: number, total: number) => void;
+}
+
+const SCRAPE_CONCURRENCY = 3;
+
+export interface ScrapeProgress {
+  phase: ScrapePhase;
+  /** Candidates of this phase tested so far / in total. */
+  done: number;
+  total: number;
+  current: string;
+  /** Candidates tested for this font overall. */
+  probed: number;
+  /** Family name of the best match so far ('' when none). */
+  best: string;
+}
+
+export interface ScrapeOptions {
+  signal?: AbortSignal;
+  onProgress?(p: ScrapeProgress): void;
+  /** Called whenever a better match is found (the document has already been updated). */
+  onMatch?(df: DocFont, m: FontMatch): void;
+}
+
+export interface ScrapeResult {
+  quality: MatchQuality | 'none';
+  exact: boolean;
+  phase: ScrapePhase | null;
+  probed: number;
+  aborted: boolean;
 }
 
 export class EditorDocument {
@@ -343,11 +373,15 @@ export class EditorDocument {
     return best;
   }
 
-  private setMatch(df: DocFont, match: FontMatch | null) {
+  private applyMatch(df: DocFont, match: FontMatch | null) {
     df.match = match;
-    df.state = 'done';
     this.modelVersion++;
     for (const p of df.pages) this.pages[p].lines = null;
+  }
+
+  private setMatch(df: DocFont, match: FontMatch | null) {
+    this.applyMatch(df, match);
+    df.state = 'done';
   }
 
   /** True when a page has text this editor leaves alone (drawn by a form that is used more than once). */
@@ -426,6 +460,106 @@ export class EditorDocument {
     m.chosen = true;
     this.setMatch(df, m);
     return m;
+  }
+
+  /**
+   * Tests one scrape candidate against a PDF font. Remote files are measured transiently: a
+   * rejected font is dropped at once, so nothing is kept unless it wins.
+   */
+  private async testCandidate(df: DocFont, c: ScrapeCandidate, weight: number, signal?: AbortSignal): Promise<{ match: FontMatch; bytes?: Uint8Array } | null> {
+    const e = c.entry;
+    const remote = !!(e.gh || e.npm);
+    let bytes: Uint8Array | undefined;
+    let font: LoadedFont;
+    if (remote) {
+      bytes = await this.library.probeEntry(e, signal);
+      font = new LoadedFont(bytes, {}, e.faceIndex ?? 0);
+    } else {
+      font = await this.library.load(e, weight);
+    }
+    if (font.embeddingRestricted) return null;
+    if (Object.keys(font.axes).length) font = bestVariationFont(df.font, font, { weights: [weight] });
+    const entry = Object.keys(font.variations).length ? { ...e, vars: { ...font.variations } } : e;
+    return { match: makeMatch(df.font, entry, font, c.alias, c.blind), bytes };
+  }
+
+  /**
+   * "Scrape until matched": tests candidate fonts phase by phase for one PDF font and stops at the
+   * first exact match. Progress is reported as it goes; `opts.signal` stops the work at any point,
+   * keeping the best match found so far.
+   */
+  async scrapeFont(df: DocFont, opts: ScrapeOptions = {}): Promise<ScrapeResult> {
+    const clues = scrapeClues(df.font, df.name);
+    const weight = clues.name.weight;
+    const kept = df.match?.chosen ? df.match : null;
+    const isExact = (m: FontMatch | null) => !!m && m.quality === 'exact' && m.score >= 0.98;
+    let best: FontMatch | null = df.match;
+    let bestBytes: Uint8Array | undefined;
+    let phase: ScrapePhase | null = null;
+    let probed = 0;
+    let done = 0;
+    let total = 0;
+    let current = '';
+    const seen = new Set<string>();
+    const report = () => opts.onProgress?.({ phase: phase ?? 'local', done, total, current, probed, best: best?.entry.family ?? '' });
+
+    df.state = 'searching';
+    try {
+      const plan = scrapePlan(this.library, clues, { signal: opts.signal, best: () => best, done: () => isExact(best) });
+      for await (const step of plan) {
+        if (opts.signal?.aborted || isExact(best)) break;
+        phase = step.phase;
+        done = 0;
+        total = 0;
+        current = '';
+        report();
+        const items = await step.discover();
+        if (opts.signal?.aborted) break;
+        total = items.length;
+        report();
+        let next = 0;
+        const worker = async () => {
+          while (!opts.signal?.aborted && !isExact(best)) {
+            const c = items[next++];
+            if (!c) return;
+            if (seen.has(c.entry.id)) {
+              done++;
+              continue;
+            }
+            seen.add(c.entry.id);
+            probed++;
+            current = c.entry.family;
+            let hit: { match: FontMatch; bytes?: Uint8Array } | null = null;
+            try {
+              hit = await this.testCandidate(df, c, weight, opts.signal);
+            } catch (err) {
+              if (opts.signal?.aborted) return;
+              hit = null; // unreadable or unreachable: simply not a match
+            }
+            done++;
+            if (hit && (!best || this.rank(hit.match) > this.rank(best)) && (!kept || hit.match.quality === 'exact')) {
+              best = hit.match;
+              bestBytes = hit.bytes;
+              this.applyMatch(df, best);
+              opts.onMatch?.(df, best);
+            }
+            report();
+          }
+        };
+        await Promise.all(Array.from({ length: Math.min(SCRAPE_CONCURRENCY, Math.max(1, items.length)) }, worker));
+      }
+    } finally {
+      if (kept && !isExact(best)) best = kept;
+      if (best !== df.match) this.applyMatch(df, best);
+      df.state = 'done';
+    }
+    const aborted = !!opts.signal?.aborted;
+    const exact = isExact(best);
+    if (exact && bestBytes && best && (best.entry.gh || best.entry.npm)) {
+      // Keep the winning remote font for offline re-opens and future scrapes.
+      this.library.adopt(best.entry, best.font, bestBytes, true);
+    }
+    return { quality: best?.quality ?? 'none', exact, phase, probed, aborted };
   }
 
   /** Compares a PDF font's glyph outlines with every built-in font (finds renamed fonts). */
@@ -604,4 +738,4 @@ export class EditorDocument {
   }
 }
 
-export type { Line, LineOutcome, CatalogEntry };
+export type { Line, LineOutcome, CatalogEntry, ScrapePhase };

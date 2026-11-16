@@ -4,9 +4,11 @@
  * immutable snapshots.
  */
 import type { PDFDocumentProxy } from 'pdfjs-dist';
-import { DocFont, EditorDocument, Line, LineOutcome, PasswordRequiredError } from '../../engine/document';
+import { DocFont, EditorDocument, Line, LineOutcome, PasswordRequiredError, ScrapeProgress } from '../../engine/document';
+import type { ScrapePhase } from '../../engine/font/scrape';
 import { getLibrary } from '../../engine/platform.browser';
 import { Edits, countEdits, effectiveScale, guessAlign, hasEdits, maxLength, toDocEdits, withPage } from './edits';
+import { isStandardFont } from './fontquality';
 import type { PageGeom } from './geometry';
 import { ViewerFilesGoneError, closePdf, loadPdf, pageGeom } from './pdfjs';
 
@@ -26,6 +28,27 @@ export interface View {
   edits: Edits;
 }
 
+/** Live state of a "scrape fonts until matched" run. */
+export interface ScrapeState {
+  running: boolean;
+  /** Set once a run has ended (kept so the summary stays visible until the next run). */
+  finished: boolean;
+  stopped: boolean;
+  error: boolean;
+  /** Fonts handled so far / in this run. */
+  index: number;
+  total: number;
+  /** Fonts that now have an exact match. */
+  matched: number;
+  phase: ScrapePhase | null;
+  /** Candidates tested in the current phase / phase size. */
+  done: number;
+  phaseTotal: number;
+  /** Candidates tested for the current font, and overall in this run. */
+  probed: number;
+  current: string;
+}
+
 export interface Snapshot {
   stage: Stage;
   fileName: string;
@@ -41,6 +64,8 @@ export interface Snapshot {
   fontsVersion: number;
   /** A background search for better fonts is still running. */
   searching: boolean;
+  /** "Scrape fonts until matched" progress, or null before the first run. */
+  scrape: ScrapeState | null;
   busy: boolean;
   buildFailed: boolean;
   /**
@@ -55,7 +80,7 @@ export interface Snapshot {
 
 const INITIAL: Snapshot = {
   stage: { kind: 'idle' }, fileName: '', doc: null, pageCount: 0, geoms: [], view: null, edits: {}, changes: 0,
-  canUndo: false, canRedo: false, fontsVersion: 0, searching: false, busy: false, buildFailed: false, viewerGone: false, saving: false, unsaved: false,
+  canUndo: false, canRedo: false, fontsVersion: 0, searching: false, scrape: null, busy: false, buildFailed: false, viewerGone: false, saving: false, unsaved: false,
 };
 
 interface Session {
@@ -82,6 +107,7 @@ export class EditorStore {
   private pending: { name: string; bytes: Uint8Array } | null = null;
   private openToken = 0;
   private skipOnline: (() => void) | null = null;
+  private scrapeAbort: AbortController | null = null;
 
   private past: Edits[] = [];
   private future: Edits[] = [];
@@ -216,6 +242,8 @@ export class EditorStore {
   private release(): void {
     clearTimeout(this.buildTimer);
     this.dirty = false;
+    this.scrapeAbort?.abort();
+    this.scrapeAbort = null;
     const s = this.session;
     this.session = null;
     this.past = [];
@@ -397,6 +425,66 @@ export class EditorStore {
     this.fontsChanged();
     await run;
     if (this.session === s) this.fontsChanged();
+  }
+
+  /** Fonts a scrape can still improve: not exact yet, and not a standard font that is only named in the file. */
+  scrapable(): DocFont[] {
+    return this.session ? this.session.doc.fonts.filter((df) => improvable(df) && !isStandardFont(df) && df.state !== 'searching') : [];
+  }
+
+  /**
+   * "Scrape until matched": tests candidate fonts (local, catalogue, GitHub/npm, script and Google
+   * sweeps) against each PDF font and stops at the first exact match. `target` defaults to every
+   * font that still needs one. Runs in the background; `stopScrape()` ends it and keeps the best so far.
+   */
+  async scrapeFonts(target?: DocFont[]): Promise<void> {
+    const s = this.session;
+    if (!s || this.scrapeAbort) return;
+    const fonts = (target ?? this.scrapable()).filter((df) => df.state !== 'searching');
+    if (!fonts.length) return;
+    const ctl = new AbortController();
+    this.scrapeAbort = ctl;
+    const base: ScrapeState = {
+      running: true, finished: false, stopped: false, error: false, index: 0, total: fonts.length, matched: 0,
+      phase: null, done: 0, phaseTotal: 0, probed: 0, current: '',
+    };
+    this.patch({ scrape: base });
+    const update = (p: Partial<ScrapeState>) => {
+      if (this.session === s) this.patch({ scrape: { ...(this.snap.scrape ?? base), ...p } });
+    };
+    let error = false;
+    try {
+      for (let i = 0; i < fonts.length && !ctl.signal.aborted; i++) {
+        const df = fonts[i];
+        update({ index: i, current: df.name.clean, phase: null, done: 0, phaseTotal: 0 });
+        const onProgress = (p: ScrapeProgress) => update({ phase: p.phase, done: p.done, phaseTotal: p.total, current: p.current || df.name.clean, probed: p.probed });
+        await s.doc.scrapeFont(df, {
+          signal: ctl.signal,
+          onProgress,
+          onMatch: () => {
+            if (this.session === s) this.fontsChanged();
+          },
+        });
+        if (this.session !== s) return;
+        this.fontsChanged();
+        update({ index: i + 1, matched: fonts.filter((f) => f.match?.quality === 'exact').length });
+      }
+    } catch (err) {
+      console.error(err);
+      error = true;
+    } finally {
+      if (this.scrapeAbort === ctl) this.scrapeAbort = null;
+      if (this.session === s) {
+        const matched = fonts.filter((f) => f.match?.quality === 'exact').length;
+        update({ running: false, finished: true, stopped: ctl.signal.aborted, error, matched, phase: null, current: '' });
+        this.fontsChanged();
+      }
+    }
+  }
+
+  /** Stops a running scrape. Matches found so far are kept. */
+  stopScrape(): void {
+    this.scrapeAbort?.abort();
   }
 
   /** Compares glyph shapes against every built-in font (finds fonts whose name was changed). */

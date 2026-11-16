@@ -41,6 +41,145 @@ export function looksLikeFont(bytes: Uint8Array): boolean {
   return tag === 0x00010000 || tag === 0x4f54544f /* OTTO */ || tag === 0x74727565 /* true */ || tag === 0x74746366 /* ttcf */;
 }
 
+export function looksLikeWoff(bytes: Uint8Array): boolean {
+  return bytes.length >= 44 && u32(bytes, 0) === 0x774f4646; /* wOFF */
+}
+
+/** Number of faces inside a font file (>1 for TrueType collections). */
+export function collectionCount(bytes: Uint8Array): number {
+  if (bytes.length < 12 || u32(bytes, 0) !== 0x74746366) return 1;
+  return Math.min(32, Math.max(1, u32(bytes, 8)));
+}
+
+/** Unpacks a WOFF 1.0 wrapper into plain TrueType/OpenType bytes; leaves other files as they are. */
+export async function unwrapFontBytes(bytes: Uint8Array): Promise<Uint8Array> {
+  if (!looksLikeWoff(bytes) || typeof DecompressionStream === 'undefined') return bytes;
+  const flavor = u32(bytes, 4);
+  const numTables = u16(bytes, 12);
+  const dirEnd = 44 + numTables * 20;
+  if (!numTables || numTables > 128 || dirEnd > bytes.length) throw new Error('Not a usable WOFF font');
+  const tables: { tag: number; csum: number; raw: Uint8Array }[] = [];
+  let dataSize = 0;
+  for (let i = 0; i < numTables; i++) {
+    const e = 44 + i * 20;
+    const tag = u32(bytes, e);
+    const off = u32(bytes, e + 4);
+    const compLen = u32(bytes, e + 8);
+    const origLen = u32(bytes, e + 12);
+    const csum = u32(bytes, e + 16);
+    if (off + compLen > bytes.length || origLen > 64_000_000 || dataSize + origLen > 64_000_000) throw new Error('Not a usable WOFF font');
+    const slice = bytes.subarray(off, off + compLen);
+    let raw: Uint8Array;
+    if (compLen === origLen) raw = slice;
+    else {
+      const ds = new DecompressionStream('deflate');
+      const writer = ds.writable.getWriter();
+      const write = writer.write(slice as BufferSource).then(() => writer.close());
+      const [, buf] = await Promise.all([write, new Response(ds.readable).arrayBuffer()]);
+      raw = new Uint8Array(buf);
+    }
+    if (raw.length !== origLen) throw new Error('Not a usable WOFF font');
+    tables.push({ tag, csum, raw });
+    dataSize += (origLen + 3) & ~3;
+  }
+  tables.sort((a, b) => (a.tag < b.tag ? -1 : a.tag > b.tag ? 1 : 0));
+  const headSize = 12 + numTables * 16;
+  const out = new Uint8Array(headSize + dataSize);
+  const dv = new DataView(out.buffer);
+  let sr = 1;
+  let es = 0;
+  while (sr * 2 <= numTables) {
+    sr *= 2;
+    es++;
+  }
+  dv.setUint32(0, flavor);
+  dv.setUint16(4, numTables);
+  dv.setUint16(6, sr * 16);
+  dv.setUint16(8, es);
+  dv.setUint16(10, (numTables - sr) * 16);
+  let cursor = headSize;
+  for (let i = 0; i < tables.length; i++) {
+    const t = tables[i];
+    const r = 12 + i * 16;
+    dv.setUint32(r, t.tag);
+    dv.setUint32(r + 4, t.csum);
+    dv.setUint32(r + 8, cursor);
+    dv.setUint32(r + 12, t.raw.length);
+    out.set(t.raw, cursor);
+    cursor += (t.raw.length + 3) & ~3;
+  }
+  return out;
+}
+
+const isDigit = (c: number) => c >= 48 && c <= 57;
+const isNumStart = (c: number) => isDigit(c) || c === 45 || c === 46;
+
+function numEnd(s: string, start: number): number {
+  let i = start;
+  if (s.charCodeAt(i) === 45) i++;
+  while (i < s.length && isDigit(s.charCodeAt(i))) i++;
+  if (i < s.length && s.charCodeAt(i) === 46) {
+    i++;
+    while (i < s.length && isDigit(s.charCodeAt(i))) i++;
+  }
+  if (i < s.length && (s.charCodeAt(i) === 101 || s.charCodeAt(i) === 69)) {
+    i++;
+    if (i < s.length && (s.charCodeAt(i) === 45 || s.charCodeAt(i) === 43)) i++;
+    while (i < s.length && isDigit(s.charCodeAt(i))) i++;
+  }
+  return i;
+}
+
+/** Command sequence of an SVG path with numbers replaced by `#` (invariant under coordinate rounding). */
+function pathCommands(path: string): string {
+  let out = '';
+  for (let i = 0; i < path.length; ) {
+    if (isNumStart(path.charCodeAt(i))) {
+      const end = numEnd(path, i);
+      if (end > i) {
+        out += '#';
+        i = end;
+        continue;
+      }
+    }
+    out += path[i++];
+  }
+  return out;
+}
+
+/**
+ * True when two non-empty SVG glyph paths have the exact same drawing commands and every control
+ * point lies within `tol` font units — accounts for float-to-integer rounding when a variable font
+ * is frozen into a static PDF subset.
+ */
+export function sameOutline(a: string, b: string, tol = 1.5): boolean {
+  if (!a || !b) return false;
+  if (a === b) return true;
+  let i = 0;
+  let j = 0;
+  const na = a.length;
+  const nb = b.length;
+  while (i < na && j < nb) {
+    const ca = a.charCodeAt(i);
+    const cb = b.charCodeAt(j);
+    if (isNumStart(ca)) {
+      if (!isNumStart(cb)) return false;
+      const ea = numEnd(a, i);
+      const eb = numEnd(b, j);
+      const va = Number(a.slice(i, ea));
+      const vb = Number(b.slice(j, eb));
+      if (!Number.isFinite(va) || !Number.isFinite(vb) || Math.abs(va - vb) > tol) return false;
+      i = ea;
+      j = eb;
+    } else {
+      if (ca !== cb) return false;
+      i++;
+      j++;
+    }
+  }
+  return i === na && j === nb;
+}
+
 export class LoadedFont {
   readonly face: hb.Face;
   readonly font: hb.Font;
@@ -55,7 +194,9 @@ export class LoadedFont {
   readonly metrics: FontMetrics;
   private coverage = new Map<number, number>();
   private prints = new Map<number, string>();
+  private skeletons = new Map<number, string>();
   private reverse: Map<number, number[]> | null = null;
+  private scripts: string[] | null = null;
 
   constructor(
     readonly bytes: Uint8Array,
@@ -186,6 +327,41 @@ export class LoadedFont {
     return p;
   }
 
+  /** Command-sequence signature of an outline (empty for blank glyphs), unaffected by point rounding. */
+  skeleton(gid: number): string {
+    let s = this.skeletons.get(gid);
+    if (s === undefined) {
+      const path = this.path(gid);
+      s = path ? hashString(pathCommands(path)) : '';
+      this.skeletons.set(gid, s);
+    }
+    return s;
+  }
+
+  /** OpenType layout script tags declared in the font (e.g. "khmr", "thai", "arab"). */
+  scriptTags(): string[] {
+    if (this.scripts) return this.scripts;
+    const set = new Set<string>();
+    for (const table of ['GSUB', 'GPOS'] as const) {
+      try {
+        for (const tag of this.face.getTableScriptTags(table) ?? []) set.add(tag.trim().toLowerCase());
+      } catch {
+        /* table absent */
+      }
+    }
+    this.scripts = [...set];
+    return this.scripts;
+  }
+
+  /** Glyph id by PostScript glyph name, 0 if unknown. */
+  glyphByName(name: string): number {
+    try {
+      return this.font.glyphFromName(name) ?? 0;
+    } catch {
+      return 0;
+    }
+  }
+
   /** glyph → code points that map to it through the font's cmap. */
   reverseCmap(): Map<number, number[]> {
     if (this.reverse) return this.reverse;
@@ -284,12 +460,12 @@ const DROP_TABLES = ['GSUB', 'GPOS', 'GDEF', 'BASE', 'JSTF', 'kern', 'DSIG', 'hd
  * the PDF can address glyphs by the ids the shaper returned). Variable fonts
  * are frozen at `variations`, since PDF cannot embed variable fonts.
  */
-export async function subsetFont(bytes: Uint8Array, gids: Iterable<number>, variations: Record<string, number> = {}): Promise<Uint8Array> {
+export async function subsetFont(bytes: Uint8Array, gids: Iterable<number>, variations: Record<string, number> = {}, index = 0): Promise<Uint8Array> {
   const X = await getSubsetModule();
   const ptr = X.malloc(bytes.length);
   new Uint8Array(X.memory.buffer).set(bytes, ptr);
   const blob = X.hb_blob_create(ptr, bytes.length, 2 /* WRITABLE */, 0, 0);
-  const face = X.hb_face_create(blob, 0);
+  const face = X.hb_face_create(blob, index);
   const input = X.hb_subset_input_create_or_fail();
   try {
     if (!input) throw new Error('Subsetter unavailable');

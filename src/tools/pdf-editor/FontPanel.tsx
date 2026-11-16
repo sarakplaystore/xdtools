@@ -7,7 +7,8 @@ import type { CatalogEntry } from '../../engine/font/library';
 import { fontOptions } from './edits';
 import { FontGroup, Quality, groupFonts } from './fontquality';
 import { fontStyle } from './fontface';
-import type { EditorStore, FontActionError } from './store';
+import { ScrapeBar } from './ScrapeBar';
+import type { EditorStore, FontActionError, ScrapeState } from './store';
 
 /** A short piece of the document's own text drawn with this font. */
 function sampleText(doc: EditorDocument, fonts: DocFont[]): string {
@@ -49,7 +50,7 @@ function pagesLabel(pages: number[], t: (k: Key) => string): string {
   return `${pages.length} ${t('f.pages')}`;
 }
 
-function FontRow({ store, doc, group, fontsVersion }: { store: EditorStore; doc: EditorDocument; group: FontGroup; fontsVersion: number }) {
+function FontRow({ store, doc, group, fontsVersion, scrapeRunning }: { store: EditorStore; doc: EditorDocument; group: FontGroup; fontsVersion: number; scrapeRunning: boolean }) {
   const { t } = useI18n();
   const [error, setError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -134,6 +135,16 @@ function FontRow({ store, doc, group, fontsVersion }: { store: EditorStore; doc:
               {t('f.deep')}
             </button>
           )}
+          <button
+            type="button"
+            className="btn btn--sm btn--ghost"
+            disabled={busy || scrapeRunning || !doc.library.onlineEnabled}
+            title={t('scrape.hint')}
+            onClick={() => void store.scrapeFonts(fonts)}
+          >
+            <IconSearch size={15} />
+            {t('scrape.font')}
+          </button>
           <select
             className="select select--sm"
             value=""
@@ -169,7 +180,7 @@ function FontRow({ store, doc, group, fontsVersion }: { store: EditorStore; doc:
   );
 }
 
-export function FontPanel({ store, doc, fontsVersion, searching, onClose }: { store: EditorStore; doc: EditorDocument; fontsVersion: number; searching: boolean; onClose(): void }) {
+export function FontPanel({ store, doc, fontsVersion, searching, scrape, onClose }: { store: EditorStore; doc: EditorDocument; fontsVersion: number; searching: boolean; scrape: ScrapeState | null; onClose(): void }) {
   const { t } = useI18n();
   const [deviceError, setDeviceError] = useState<string | null>(null);
   const [deviceBusy, setDeviceBusy] = useState(false);
@@ -202,6 +213,10 @@ export function FontPanel({ store, doc, fontsVersion, searching, onClose }: { st
           </button>
         </div>
         <div className="sheet__body">
+          <div className="sheet__scrape">
+            <p className="sheet__hint">{doc.library.onlineEnabled ? t('scrape.hint') : t('scrape.offline')}</p>
+            <ScrapeBar store={store} scrape={scrape} canStart={doc.library.onlineEnabled && store.scrapable().length > 0} variant="panel" />
+          </div>
           {rows.length === 0 ? (
             <p className="sheet__hint">{t('f.empty')}</p>
           ) : (
@@ -215,7 +230,7 @@ export function FontPanel({ store, doc, fontsVersion, searching, onClose }: { st
           )}
           <ul className="frows">
             {rows.map((g) => (
-              <FontRow key={g.lead.id} store={store} doc={doc} group={g} fontsVersion={fontsVersion} />
+              <FontRow key={g.lead.id} store={store} doc={doc} group={g} fontsVersion={fontsVersion} scrapeRunning={!!scrape?.running} />
             ))}
           </ul>
           <div className="sheet__device">

@@ -4,6 +4,7 @@ import { useI18n } from '../../app/i18n';
 import { setNavigationGuard } from '../../app/router';
 import { IconBack, IconCheck, IconCursor, IconDownload, IconFont, IconMinus, IconPlus, IconRedo, IconTextAdd, IconUndo, IconWarn } from '../../components/icons';
 import { FontPanel } from './FontPanel';
+import { ScrapeBar } from './ScrapeBar';
 import { qualityOf, visibleFonts } from './fontquality';
 import { PageView } from './PageView';
 import { BoxState, RGB, Target, isNoop, withPage } from './edits';
@@ -266,6 +267,11 @@ export function Workspace({ store, snap }: { store: EditorStore; snap: Snapshot 
             <span>{tone === 'ok' ? `${t('f.all.ok')}: ${[...new Set(shown.map((f) => f.match?.entry.family ?? ''))].filter(Boolean).join(', ')}` : tone === 'warn' ? `${t('ed.fonts.warn')} ${t('p.s.fix')} ›` : `${t('ed.fonts')} ›`}</span>
           </button>
         )}
+        {(weak > 0 || snap.scrape?.running) && (
+          <div className="ws__scrape">
+            <ScrapeBar store={store} scrape={snap.scrape} canStart={doc.library.onlineEnabled && store.scrapable().length > 0} variant="banner" />
+          </div>
+        )}
         {snap.viewerGone && (
           <div className="notice notice--error notice--block">
             <p>{t('ed.stale.open')}</p>
@@ -303,7 +309,7 @@ export function Workspace({ store, snap }: { store: EditorStore; snap: Snapshot 
           ))}
       </div>
 
-      {fontsOpen && <FontPanel store={store} doc={doc} fontsVersion={snap.fontsVersion} searching={snap.searching} onClose={() => setFontsOpen(false)} />}
+      {fontsOpen && <FontPanel store={store} doc={doc} fontsVersion={snap.fontsVersion} searching={snap.searching} scrape={snap.scrape} onClose={() => setFontsOpen(false)} />}
     </div>
   );
 }
