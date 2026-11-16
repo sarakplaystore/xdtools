@@ -266,6 +266,14 @@ export function Workspace({ store, snap }: { store: EditorStore; snap: Snapshot 
             <span>{tone === 'ok' ? `${t('f.all.ok')}: ${[...new Set(shown.map((f) => f.match?.entry.family ?? ''))].filter(Boolean).join(', ')}` : tone === 'warn' ? `${t('ed.fonts.warn')} ${t('p.s.fix')} ›` : `${t('ed.fonts')} ›`}</span>
           </button>
         )}
+        {snap.viewerGone && (
+          <div className="notice notice--error notice--block">
+            <p>{t('ed.stale.open')}</p>
+            <button type="button" className="btn btn--dark btn--sm" onClick={download}>
+              {t('ed.download')}
+            </button>
+          </div>
+        )}
         {doc.encrypted && <p className="ws__enc">{t('ed.encrypted')}</p>}
       </div>
 

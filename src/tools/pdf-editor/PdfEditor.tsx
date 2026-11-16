@@ -10,15 +10,18 @@ import './editor.css';
 
 const isPdf = (file: File) => file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
 
-function Intro({ store, failed }: { store: EditorStore; failed: boolean }) {
+function Intro({ store, failed, lost }: { store: EditorStore; failed: boolean; lost: boolean }) {
   const { t } = useI18n();
   const inputRef = useRef<HTMLInputElement>(null);
   const [over, setOver] = useState(false);
   const [notice, setNotice] = useState<Key | null>(failed ? 'ed.error' : null);
   const [sampleBusy, setSampleBusy] = useState(false);
+  // The page outlived a deployment, so its files are gone; nothing can be opened until a reload.
+  const stale = lost;
 
   const take = (file: File | undefined | null) => {
     if (!file) return;
+    if (stale) return;
     if (!isPdf(file)) {
       setNotice('ed.notpdf');
       return;
@@ -31,6 +34,7 @@ function Intro({ store, failed }: { store: EditorStore; failed: boolean }) {
     take(e.dataTransfer.files[0]);
   };
   const openSample = async () => {
+    if (stale) return;
     setSampleBusy(true);
     try {
       const res = await fetch(assetUrl('samples/khmer-letter.pdf'));
@@ -44,6 +48,14 @@ function Intro({ store, failed }: { store: EditorStore; failed: boolean }) {
 
   return (
     <>
+      {stale && (
+        <div className="notice notice--error notice--block">
+          <p>{t('ed.stale')}</p>
+          <button type="button" className="btn btn--dark btn--sm" onClick={() => window.location.reload()}>
+            {t('ed.stale.reload')}
+          </button>
+        </div>
+      )}
       <div
         className={'drop' + (over ? ' is-over' : '')}
         role="button"
@@ -78,9 +90,9 @@ function Intro({ store, failed }: { store: EditorStore; failed: boolean }) {
           }}
         />
       </div>
-      {notice && <p className="notice notice--error">{t(notice)}</p>}
+      {notice && !stale && <p className="notice notice--error">{t(notice)}</p>}
       <div className="tool__sample">
-        <button type="button" className="linkbtn" onClick={openSample} disabled={sampleBusy}>
+        <button type="button" className="linkbtn" onClick={openSample} disabled={sampleBusy || stale}>
           {t('ed.sample')}
         </button>
       </div>
@@ -178,7 +190,7 @@ export function PdfEditor() {
         <p className="tool__sub">{t('ed.sub')}</p>
         <span className="pill">{t('ed.pill')}</span>
       </div>
-      {stage.kind === 'idle' && <Intro key={stage.error ? 'e' : 'i'} store={store} failed={!!stage.error} />}
+      {stage.kind === 'idle' && <Intro key={stage.error ? 'e' : 'i'} store={store} failed={!!stage.error} lost={!!stage.lost} />}
       {stage.kind === 'loading' && <Loading store={store} step={stage.step} detail={stage.detail} name={snap.fileName} />}
       {stage.kind === 'password' && <Password key={String(stage.wrong)} store={store} wrong={stage.wrong} name={snap.fileName} />}
     </div>

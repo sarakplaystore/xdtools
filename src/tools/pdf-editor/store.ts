@@ -8,10 +8,11 @@ import { DocFont, EditorDocument, Line, LineOutcome, PasswordRequiredError } fro
 import { getLibrary } from '../../engine/platform.browser';
 import { Edits, countEdits, effectiveScale, guessAlign, hasEdits, maxLength, toDocEdits, withPage } from './edits';
 import type { PageGeom } from './geometry';
-import { closePdf, loadPdf, pageGeom } from './pdfjs';
+import { ViewerFilesGoneError, closePdf, loadPdf, pageGeom } from './pdfjs';
 
 export type Stage =
-  | { kind: 'idle'; error?: boolean }
+  /** `lost` = the page files were replaced by a newer deployment, so the tab must reload. */
+  | { kind: 'idle'; error?: boolean; lost?: boolean }
   | { kind: 'loading'; step: 'open' | 'fonts' | 'online' | 'render'; detail?: string }
   | { kind: 'password'; wrong: boolean }
   | { kind: 'ready' };
@@ -42,6 +43,11 @@ export interface Snapshot {
   searching: boolean;
   busy: boolean;
   buildFailed: boolean;
+  /**
+   * The open file needs viewer files from a newer deployment; the preview cannot update and a
+   * changed edit would not appear. Downloading still works, so say so rather than fail silently.
+   */
+  viewerGone: boolean;
   saving: boolean;
   /** There are changes that have not been downloaded yet. */
   unsaved: boolean;
@@ -49,7 +55,7 @@ export interface Snapshot {
 
 const INITIAL: Snapshot = {
   stage: { kind: 'idle' }, fileName: '', doc: null, pageCount: 0, geoms: [], view: null, edits: {}, changes: 0,
-  canUndo: false, canRedo: false, fontsVersion: 0, searching: false, busy: false, buildFailed: false, saving: false, unsaved: false,
+  canUndo: false, canRedo: false, fontsVersion: 0, searching: false, busy: false, buildFailed: false, viewerGone: false, saving: false, unsaved: false,
 };
 
 interface Session {
@@ -170,7 +176,7 @@ export class EditorStore {
       else {
         console.error(err);
         this.pending = null;
-        this.patch({ ...INITIAL, stage: { kind: 'idle', error: true } });
+        this.patch({ ...INITIAL, stage: { kind: 'idle', error: true, lost: err instanceof ViewerFilesGoneError } });
       }
     }
   }
@@ -338,7 +344,10 @@ export class EditorStore {
       this.autoFit(session, edits, outcomes);
     } catch (err) {
       console.error(err);
-      if (this.session === session) this.patch({ buildFailed: true });
+      if (this.session !== session) return;
+      // A preview that cannot be built is not lost work: the changes are all in this.snap.edits.
+      if (err instanceof ViewerFilesGoneError) this.patch({ viewerGone: true });
+      else this.patch({ buildFailed: true });
     }
   }
 

@@ -42,8 +42,12 @@ linked to this repository with `main` as the production branch.
   `package.json`.
 - Vercel builds every push to GitHub. Commits on `main` are published to the address above;
   other branches get a preview address that only members of the Vercel team can open.
-- After a new version is published, a tab that was opened earlier reloads itself once when it
-  needs a script that no longer exists.
+- **A tab that was open when a new version was published.** Each deployment gives the page scripts
+  and the PDF worker new names and deletes the old ones, so a tab opened earlier asks for names
+  that are gone. A page it has not visited yet reloads itself once to pick up the new names (not
+  when offline, and not twice in a minute). A PDF already open keeps its own bytes, so it stays
+  editable and can still be downloaded; it says the site was updated and asks for a reload before
+  the old preview is rebuilt. `tests/chunks.test.ts` and `tests/viewer.test.ts` cover both.
 
 Any other static host works too, as long as unknown paths fall back to `index.html` and requests
 under `/assets/` that do not match a file return 404.
@@ -75,6 +79,8 @@ under `/assets/` that do not match a file return 404.
 - Scanned pages are pictures: there is no text to edit (you can still add text on top).
 - Text inside a drawing that the PDF reuses in several places, hidden OCR text and vertical
   writing are left alone.
+- A PDF opened before a deployment cannot show its updates until the page is loaded again, because
+  the preview needs the PDF worker file of the new version.
 - Classic PDF fonts that the file only names (Helvetica, Times, Courier) are drawn with
   metric-compatible stand-ins, exactly as PDF viewers do.
 - Looking fonts up online needs a connection; offline, only the shipped fonts are used.
