@@ -228,6 +228,18 @@ export const IconLock = (p: P) => (
     <path d="M8 10.500V8a4 4 0 0 1 8 0v2.500M12 14.500v2" />
   </Svg>
 );
+export const IconCloudDownload = (p: P) => (
+  <Svg {...p}>
+    <path d="M7 17.500A4 4 0 0 1 7 9.600a5 5 0 0 1 9.700-1.100A3.700 3.700 0 0 1 17 17.500" fill={TINT} />
+    <path d="M12 11v6M9.400 14.400 12 17l2.600-2.600M8 20.500h8" />
+  </Svg>
+);
+export const IconSparkle = (p: P) => (
+  <Svg {...p}>
+    <path d="M12 3.5 13.9 9.2l5.6 1.9-5.6 1.9L12 18.7l-1.9-5.7-5.6-1.9 5.6-1.9z" fill={TINT} />
+    <path d="M18.5 3v3M17 4.5h3M5.5 17v3M4 18.5h3" />
+  </Svg>
+);
 export const IconPdfDrop = ({ size = 56 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 56 56" fill="none" aria-hidden="true">
     <path d="M15 5h18l11 11v31a4 4 0 0 1-4 4H15a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4z" fill="#fff" stroke="#0f1419" strokeWidth="2.200" strokeLinejoin="round" />

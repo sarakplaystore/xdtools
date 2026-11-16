@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "xdtools — free browser tools. Includes a PDF editor with full Khmer support and automatic font matching.",
+  "description": "xdtools \u2014 free browser tools. Includes a PDF editor with full Khmer support and automatic font matching.",
   "engines": {
     "node": ">=22.13"
   },
@@ -12,7 +12,7 @@
     "predev": "npm run assets",
     "dev": "vite --host 0.0.0.0 --port 5173",
     "prebuild": "npm run assets",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && vite build && node scripts/offline-manifest.mjs",
     "preview": "vite preview --host 0.0.0.0 --port 4173",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"

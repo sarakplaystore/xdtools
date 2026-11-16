@@ -1,6 +1,7 @@
 import { PDF_ROUTE } from '../app/App';
 import { useI18n } from '../app/i18n';
 import { Link } from '../app/router';
+import { OfflineCard } from '../components/OfflineCard';
 import { ToolGrid } from '../components/ToolGrid';
 import { IconChevron, IconFont, IconPdfEdit, IconShield } from '../components/icons';
 
@@ -71,6 +72,10 @@ export function Home() {
           <p className="muted">{t('home.tools.sub')}</p>
         </div>
         <ToolGrid />
+      </section>
+
+      <section className="sec">
+        <OfflineCard />
       </section>
 
       <section className="sec">
