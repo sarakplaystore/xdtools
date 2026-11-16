@@ -1,5 +1,6 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { FlagKH, IconClose, IconGrid, IconHome, IconPdfEdit, Logo } from '../components/icons';
+import { Credit } from '../pages/Credit';
 import { Home } from '../pages/Home';
 import { NotFound } from '../pages/NotFound';
 import { Tools } from '../pages/Tools';
@@ -11,6 +12,7 @@ import { Link, useRouter } from './router';
 const PdfEditorPage = lazy(() => import('../pages/PdfEditorPage').catch(recoverMissingChunk));
 
 export const PDF_ROUTE = '/tools/pdf-editor';
+export const CREDIT_ROUTE = '/credit';
 
 function Header({ fixed }: { fixed: boolean }) {
   const { t, lang, setLang } = useI18n();
@@ -103,6 +105,10 @@ function Footer() {
           <a className="ftr__link" href="/fonts/NOTICE.txt" target="_blank" rel="noopener">
             {t('footer.licences')}
           </a>
+          {' · '}
+          <Link to={CREDIT_ROUTE} className="ftr__link">
+            {t('credit.nav')}
+          </Link>
         </p>
         <p className="ftr__made">
           {t('footer.made')} <FlagKH size={18} />
@@ -124,6 +130,7 @@ export function App() {
   let page;
   if (path === '/') page = <Home />;
   else if (path === '/tools') page = <Tools />;
+  else if (path === CREDIT_ROUTE) page = <Credit />;
   else if (isEditor) page = <PdfEditorPage />;
   else page = <NotFound />;
   return (

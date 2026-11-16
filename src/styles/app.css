@@ -272,3 +272,48 @@ a.tile:hover .tile__icon { animation: wiggle 0.5s ease; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* ---------- work offline ---------- */
+.offline {
+  display: grid; gap: 12px; padding: 18px 18px 16px; background: #fff; border: 1px solid var(--line);
+  border-radius: var(--r); box-shadow: var(--shadow);
+}
+.offline__head { display: flex; align-items: flex-start; gap: 13px; }
+.offline__head > div { min-width: 0; }
+.offline__head .muted { margin-top: 4px; line-height: 1.5; }
+.offline__icon {
+  flex: none; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px;
+  background: var(--soft); color: var(--ink);
+}
+.offline__bar { height: 8px; border-radius: 999px; background: var(--soft); overflow: hidden; }
+.offline__bar > span {
+  display: block; height: 100%; border-radius: inherit; background: var(--grad);
+  transition: width 0.2s ease;
+}
+.offline__status { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.offline__status svg { color: var(--green); }
+.offline__note { font-size: 13px; color: var(--ink-2); }
+.offline__actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.offline__update { justify-self: start; }
+
+/* ---------- credit ---------- */
+.credit { display: grid; gap: 16px; justify-items: start; }
+.credit__card {
+  display: grid; gap: 8px; width: 100%; padding: 18px; background: #fff; border: 1px solid var(--line);
+  border-radius: var(--r); box-shadow: var(--shadow);
+}
+.credit__card .h2 { display: flex; align-items: center; gap: 8px; }
+.credit__card p { color: var(--ink-2); font-size: 14.5px; line-height: 1.6; }
+.credit__truth { color: var(--ink) !important; border-left: 3px solid var(--tint); padding-left: 12px; }
+.credit__h { margin-top: 4px; }
+.credit__stack { display: grid; gap: 8px; width: 100%; margin: 0; padding: 0; list-style: none; }
+.credit__stack li {
+  display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; padding: 11px 14px;
+  background: var(--soft); border-radius: 12px; font-size: 13.5px;
+}
+.credit__stack span { color: var(--ink-3); }
+.credit__foot { font-size: 12.5px; color: var(--ink-3); line-height: 1.6; }
+
+@media (min-width: 720px) {
+  .credit__stack { grid-template-columns: 1fr 1fr; }
+}
