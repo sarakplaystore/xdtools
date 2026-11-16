@@ -10,9 +10,12 @@ import { Link, useRouter } from './router';
 
 // The editor pulls in the PDF and font engines; load it only when it is opened.
 const PdfEditorPage = lazy(() => import('../pages/PdfEditorPage').catch(recoverMissingChunk));
+// The video shrinker has its own codec code; it loads only when it is opened.
+const VideoPage = lazy(() => import('../pages/VideoPage').catch(recoverMissingChunk));
 
 export const PDF_ROUTE = '/tools/pdf-editor';
 export const CREDIT_ROUTE = '/credit';
+export const VIDEO_ROUTE = '/tools/video';
 
 function Header({ fixed }: { fixed: boolean }) {
   const { t, lang, setLang } = useI18n();
@@ -132,6 +135,7 @@ export function App() {
   else if (path === '/tools') page = <Tools />;
   else if (path === CREDIT_ROUTE) page = <Credit />;
   else if (isEditor) page = <PdfEditorPage />;
+  else if (path === VIDEO_ROUTE) page = <VideoPage />;
   else page = <NotFound />;
   return (
     <>

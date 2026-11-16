@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "xdtools \u2014 free browser tools. Includes a PDF editor with full Khmer support and automatic font matching.",
+  "description": "xdtools — free browser tools. Includes a PDF editor with full Khmer support and automatic font matching.",
   "engines": {
     "node": ">=22.13"
   },
@@ -20,6 +20,8 @@
   "dependencies": {
     "@cantoo/pdf-lib": "2.11.1",
     "harfbuzzjs": "1.6.4",
+    "mp4-muxer": "^5.2.2",
+    "mp4box": "^2.5.0",
     "pdfjs-dist": "6.5.438",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
