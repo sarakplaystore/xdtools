@@ -112,6 +112,10 @@ h1, h2, h3, p { margin: 0; }
 
 /* ---------- hero ---------- */
 .hero { padding: 34px 0 10px; text-align: center; display: grid; justify-items: center; }
+/* Without an explicit column the implicit one is sized to min-content, so one long line (the
+   badge's "Free · No sign-up · …", a Khmer headline) made the whole page wider than a 320px
+   phone. minmax(0, 1fr) lets it shrink and the content wrap instead. */
+.hero, .sec--center, .drop, .progress, .tool__head, .tool__sample, .page-loading { grid-template-columns: minmax(0, 1fr); }
 .badge {
   display: inline-flex; align-items: center; gap: 8px; padding: 6px 13px; border-radius: 999px; background: var(--soft);
   border: 1px solid var(--line); font-size: 12.5px; font-weight: 500; color: var(--ink-2);
@@ -142,7 +146,9 @@ html[lang='km'] .hero__title { line-height: 1.45; letter-spacing: 0; font-size: 
 }
 .card:hover { box-shadow: var(--shadow); transform: translateY(-1px); border-color: #d9dee6; }
 .card__icon { flex: none; width: 64px; height: 64px; border-radius: 16px; background: var(--soft); display: grid; place-items: center; }
-.card__body { display: grid; gap: 2px; min-width: 0; flex: 1; }
+/* The text takes the room that is left after the icon and the "Open" pill. `flex-basis: auto`
+   let the pill's nowrap label win the width on a 320px phone and squeezed the text into ~90px. */
+.card__body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; flex: 1 1 0; min-width: 0; }
 .card__title { font-weight: 650; font-size: 15.5px; }
 .card__desc { color: var(--ink-2); font-size: 13.5px; }
 .card__go { flex: none; display: inline-flex; align-items: center; gap: 2px; height: 34px; padding: 0 12px 0 14px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 13px; font-weight: 600; }
@@ -158,7 +164,7 @@ a.tile:hover .tile__icon { animation: wiggle 0.5s ease; }
 @keyframes wiggle { 30% { transform: rotate(-7deg) scale(1.06); } 65% { transform: rotate(5deg) scale(1.06); } }
 .tile__icon { display: grid; place-items: center; width: 56px; height: 56px; }
 .tile__label { font-size: 13px; font-weight: 600; line-height: 1.35; }
-.tile__badge { position: absolute; top: 8px; right: 8px; font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 999px; background: #e9ecf1; color: var(--ink-3); }
+.tile__badge { position: absolute; top: 8px; right: 8px; font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 999px; background: #e9ecf1; color: var(--ink-3); }
 .tile__badge--live { background: #dcfae6; color: #067647; }
 .tile--soon { opacity: 0.62; }
 .tile--soon .tile__icon { filter: grayscale(1); }
@@ -176,10 +182,10 @@ a.tile:hover .tile__icon { animation: wiggle 0.5s ease; }
 /* ---------- footer / floating ---------- */
 .ftr { border-top: 1px solid var(--line); background: var(--soft); }
 .ftr__in { max-width: 1080px; margin: 0 auto; padding: 22px 16px 96px; display: grid; gap: 8px; color: var(--ink-2); font-size: 13px; }
-.ftr__link { color: var(--blue); text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; }
+.ftr__link { color: var(--blue); text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; display: inline-block; padding: 4px 0; }
 .ftr__made { color: var(--ink-3); display: flex; align-items: center; gap: 6px; }
 .fab {
-  position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 45; display: inline-flex; align-items: center; gap: 8px;
+  position: fixed; right: calc(16px + env(safe-area-inset-right)); bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 45; display: inline-flex; align-items: center; gap: 8px;
   height: 48px; padding: 0 20px; border-radius: 999px; background: var(--grad); color: #fff; font-weight: 650;
   box-shadow: 0 10px 26px rgba(47, 107, 255, 0.35); transition: transform 0.15s;
 }
@@ -239,9 +245,29 @@ a.tile:hover .tile__icon { animation: wiggle 0.5s ease; }
   .nav__icon svg { width: 22px; height: 22px; }
 }
 @media (max-width: 420px) {
+  /* On a 320px phone the icon (64), the "Open" pill (77) and their gaps leave ~95px for the
+     title, so the text was crushed into a column of single words. Let the pill drop below it. */
+  .card { flex-wrap: wrap; row-gap: 10px; }
+  .card__body { flex: 1 1 calc(100% - 80px); }
+  .card__go { margin-left: auto; }
   .brand__name { font-size: 18px; }
   .nav__item { min-width: 54px; padding: 5px 5px 4px; font-size: 11px; }
   .hdr__in { gap: 6px; padding: 8px 10px; }
+}
+/* 320-360px phones: the brand, three nav items and the language pill do not fit side by side,
+   and the page was 20px too wide. Stack the name above the links on its own line. */
+@media (max-width: 360px) {
+  .hdr__in { flex-wrap: wrap; row-gap: 2px; }
+  .brand { order: 1; }
+  .lang { order: 2; margin-left: auto; height: 32px; min-width: 42px; padding: 0 8px; font-size: 12px; }
+  .nav { order: 3; flex-basis: 100%; margin-left: 0; justify-content: space-between; gap: 0; }
+  .nav__item { flex: 1 1 0; min-width: 0; }
+  .brand__name { font-size: 17px; }
+  .main { padding-left: 12px; padding-right: 12px; }
+  .badge { text-align: center; }
+  .hero__title { font-size: clamp(27px, 8.6vw, 34px); }
+  /* A long word in Khmer or English must not push the page sideways. */
+  .hero__sub, .card__title, .card__desc, .lead, .step p { overflow-wrap: anywhere; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }

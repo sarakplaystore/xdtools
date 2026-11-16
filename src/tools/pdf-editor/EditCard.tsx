@@ -9,6 +9,7 @@ import { fontStyle } from './fontface';
 import { qualityOf } from './fontquality';
 import type { PageGeom } from './geometry';
 import type { EditorStore } from './store';
+import { useViewportHeight } from './viewport';
 
 const PALETTE: RGB[] = [
   [0, 0, 0],
@@ -157,15 +158,132 @@ function TextField({ value, font, placeholder, onChange, onDone }: { value: stri
   );
 }
 
+/**
+ * Places the card next to the selected text, but never outside the screen.
+ *
+ * The text's position on the page is only where the card would like to go: on a phone in
+ * landscape, or with the on-screen keyboard open, the bottom half of the screen does not exist.
+ * So the card is pulled up until it fits the visible area — measured with `visualViewport`, which
+ * shrinks when the keyboard appears — and it may not grow past it; when there is less room than
+ * the card needs it scrolls inside itself instead of running under the keyboard.
+ * `style` carries the text's own position (`--x`, `--y`, both in page coordinates).
+ */
 function Shell({ style, children }: { style: CSSProperties; children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    // Bring the card (and the line just above it) into view without jumping around.
-    const id = requestAnimationFrame(() => ref.current?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' }));
-    return () => cancelAnimationFrame(id);
+  // Where the card ends up and the most height it may take, both measured: on a phone in
+  // landscape, or with the keyboard open, the bottom of the screen simply does not exist.
+  const [place, setPlace] = useState({ lift: 0, max: 0, pinned: false, top: 8, scrolls: false });
+  // The lift already applied. `offsetTop` includes it, so it is subtracted again to find where
+  // the card would sit without a lift — otherwise every pass undoes the previous one.
+  const applied = useRef(0);
+  const viewportHeight = useViewportHeight();
+
+  useLayoutEffect(() => {
+    const card = ref.current;
+    const stage = card?.closest('.stage');
+    const page = card?.closest('.pg');
+    const toolbar = card?.closest('.ws')?.querySelector('.tb');
+    if (!card || !stage || !page) return;
+
+    const measure = () => {
+      const stageRect = stage.getBoundingClientRect();
+      const height = viewportHeight || window.innerHeight;
+      // The page area scrolls; the toolbar floats over the top of it. The usable band starts
+      // below whichever of the two is lower, and ends at the bottom of the screen.
+      const toolbarBottom = toolbar ? toolbar.getBoundingClientRect().bottom : -Infinity;
+      const top = Math.max(stageRect.top, toolbarBottom) + 8;
+      const bottom = Math.min(stageRect.bottom, height) - 10;
+      // Room below the toolbar, for the case where the card has left the page area.
+      const free = Math.round(height - toolbarBottom - 8);
+      return {
+        top,
+        height: Math.max(Math.round(bottom - top), 140),
+        free,
+        // Room left between the toolbar and the bottom of the screen, or — when that is less than
+        // the card needs to show its field and its buttons — the whole screen.
+        pinTop: free >= 220 ? Math.round(toolbarBottom) + 8 : 8,
+      };
+    };
+
+    const placeCard = () => {
+      const band = measure();
+      // Not enough room left over the page (landscape phone, keyboard open): leave the page area
+      // altogether and pin the card to the bottom of the screen, where it can be scrolled fully.
+      const pinned = band.height < 220;
+      // Full content height (`scrollHeight` ignores the max-height it is currently clamped to).
+      const wanted = card.scrollHeight;
+      const room = pinned ? Math.max(viewportHeight - band.pinTop - 8, 120) : band.height;
+      const height = Math.min(wanted, room);
+      // Where the card wants to be on screen: right under the text it edits.
+      const base = page.getBoundingClientRect().top + card.offsetTop - applied.current;
+      let top = Math.min(base, band.top + band.height - height);
+      top = Math.max(top, band.top, 0);
+      const lift = pinned ? 0 : Math.round(top - base);
+      const max = height < wanted || pinned ? height : 0;
+      const pinTop = band.pinTop;
+      const next = { lift, max, pinned, top: pinTop, scrolls: card.scrollHeight > card.clientHeight + 1 };
+      if (next.lift !== applied.current || next.max !== place.max || next.pinned !== place.pinned || next.top !== place.top || next.scrolls !== place.scrolls) {
+        applied.current = lift;
+        setPlace(next);
+      }
+    };
+
+    // Re-place on anything that moves the page out from under the card: scrolling (including
+    // our own smooth scroll into view), the keyboard opening, the card growing.
+    let frame = 0;
+    const schedule = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        placeCard();
+      });
+    };
+    placeCard();
+    const ro = new ResizeObserver(schedule);
+    ro.observe(card);
+    window.addEventListener('resize', schedule);
+    window.addEventListener('orientationchange', schedule);
+    window.addEventListener('scroll', schedule, { passive: true });
+    stage.addEventListener('scroll', schedule, { passive: true });
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      ro.disconnect();
+      window.removeEventListener('resize', schedule);
+      window.removeEventListener('orientationchange', schedule);
+      window.removeEventListener('scroll', schedule);
+      stage.removeEventListener('scroll', schedule);
+    };
+  }, [viewportHeight, children, place.max]);
+
+  useLayoutEffect(() => {
+    // On a phone the page area starts below the fold; bring its top (and with it the card) up
+    // under the floating toolbar. The placement above finishes the job as the page scrolls.
+    const card = ref.current;
+    const stage = card?.closest('.stage');
+    if (!card || !stage) return;
+    const toolbar = card.closest('.ws')?.querySelector('.tb');
+    const stuck = 6 + (toolbar?.getBoundingClientRect().height ?? 0) + 8;
+    const y = stage.getBoundingClientRect().top + window.scrollY - stuck;
+    if (y > window.scrollY + 4) window.scrollTo({ top: y, behavior: 'smooth' });
+    return undefined;
   }, []);
+
   return (
-    <div ref={ref} className="ecard" style={style} onPointerDown={(e) => e.stopPropagation()} onClick={(e) => e.stopPropagation()}>
+    <div
+      ref={ref}
+      className={`ecard${place.pinned ? ' is-pinned' : ''}${place.scrolls ? ' is-scrolling' : ''}`}
+      style={
+        {
+          ...style,
+          '--lift': `${place.lift}px`,
+          '--vh': `${viewportHeight}px`,
+          '--pin-top': `${place.top}px`,
+          ...(place.max ? { '--card-max': `${place.max}px` } : null),
+        } as CSSProperties
+      }
+      onPointerDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
+    >
       {children}
     </div>
   );
