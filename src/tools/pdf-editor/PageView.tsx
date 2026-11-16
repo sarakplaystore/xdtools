@@ -38,6 +38,8 @@ export interface PageViewProps {
   outcomes: Map<string, LineOutcome> | undefined;
   edits: PageEdits | undefined;
   mode: 'edit' | 'add';
+  /** Preview: show the page as it will be saved, with no outlines, cards or hints. */
+  preview: boolean;
   /** The selection, when it is on this page. */
   selected: Target | null;
   fontsVersion: number;
@@ -59,7 +61,7 @@ interface Drag {
 }
 
 export const PageView = memo(function PageView(props: PageViewProps) {
-  const { store, doc, index, geom, scale, pdf, stamp, outcomes, edits, mode, selected, fontsVersion, frugal, showNumber, onSelect, onAdd, onOpenFonts } = props;
+  const { store, doc, index, geom, scale, pdf, stamp, outcomes, edits, mode, preview, selected, fontsVersion, frugal, showNumber, onSelect, onAdd, onOpenFonts } = props;
   const { t } = useI18n();
   const rootRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -150,6 +152,7 @@ export const PageView = memo(function PageView(props: PageViewProps) {
   };
 
   const onBackground = (e: React.MouseEvent) => {
+    if (preview) return;
     if (mode === 'add') {
       const [px, py] = pagePoint(e);
       const [x, y] = toPdf(geom, scale, px, py);
@@ -195,7 +198,7 @@ export const PageView = memo(function PageView(props: PageViewProps) {
 
   // ---- the card for the selected line / box
   let card = null;
-  if (selected) {
+  if (selected && !preview) {
     const place = (quad: Pt[]): CSSProperties => {
       const b = bounds(quad);
       return { '--x': `${Math.max(0, b.x0 - 6).toFixed(1)}px`, '--y': `${(b.y1 + 10).toFixed(1)}px` } as CSSProperties;
@@ -225,8 +228,8 @@ export const PageView = memo(function PageView(props: PageViewProps) {
     }
   }
 
-  const textless = near && painted && lineItems.length === 0 && !(edits?.boxes.length ?? 0);
-  const shared = near && doc.hasSharedText(index);
+  const textless = !preview && near && painted && lineItems.length === 0 && !(edits?.boxes.length ?? 0);
+  const shared = !preview && near && doc.hasSharedText(index);
 
   return (
     <div className="pgwrap" style={{ width }}>
@@ -235,10 +238,10 @@ export const PageView = memo(function PageView(props: PageViewProps) {
           {t('ed.page')} {index + 1}
         </div>
       )}
-      <div ref={rootRef} className={'pg' + (selected ? ' is-active' : '') + (mode === 'add' ? ' is-adding' : '')} style={{ width, height }} data-page={index + 1}>
+      <div ref={rootRef} className={'pg' + (selected && !preview ? ' is-active' : '') + (mode === 'add' && !preview ? ' is-adding' : '') + (preview ? ' is-preview' : '')} style={{ width, height }} data-page={index + 1}>
         <canvas ref={canvasRef} className="pg__canvas" width={1} height={1} />
         {!painted && <div className="pg__wait" />}
-        {near && (
+        {near && !preview && (
           <svg className="pg__svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`} onClick={onBackground}>
             {mode === 'edit' &&
               lineItems.map(({ line, quad, edited }) => (

@@ -241,3 +241,17 @@
   .scrape--banner .scrape__start { width: 100%; justify-content: center; }
   .scrape__now { white-space: normal; }
 }
+
+/* ---- preview & print ---- */
+.iconbtn.is-on { background: var(--ink); color: #fff; }
+.iconbtn:disabled { opacity: 0.45; }
+.ws__preview { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin: 0 2px 10px; padding: 8px 12px; border-radius: 12px; background: #eef4ff; color: #1d4ed8; font-size: 13px; }
+.ws__preview p { display: inline-flex; align-items: center; gap: 6px; margin: 0; min-width: 0; font-weight: 600; }
+.ws__preview svg { flex: none; }
+.ws.is-preview .pg { cursor: default; }
+.ws.is-preview .pg__num { color: var(--ink-2); }
+.ws.is-preview .stage { background: #e9edf3; }
+.ws.is-preview .tb__file span { color: var(--ink-2); }
+@media (max-width: 440px) {
+  .ws__preview p { white-space: normal; }
+}

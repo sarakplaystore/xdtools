@@ -115,6 +115,17 @@ export const IconDownload = (p: P) => (
     <path d="M12 4v11m0 0-4.500-4.500M12 15l4.500-4.500M5 19.500h14" />
   </Svg>
 );
+export const IconPrint = (p: P) => (
+  <Svg {...p}>
+    <path d="M7 9V4.500h10V9M7 17H5.500A1.500 1.500 0 0 1 4 15.500v-5A2.500 2.500 0 0 1 6.500 8h11A2.500 2.500 0 0 1 20 10.500v5a1.500 1.500 0 0 1-1.500 1.500H17M7 14h10v5.500H7z" />
+  </Svg>
+);
+export const IconEye = (p: P) => (
+  <Svg {...p}>
+    <path d="M2.500 12S6 6 12 6s9.500 6 9.500 6-3.500 6-9.500 6S2.500 12 2.500 12z" />
+    <circle cx="12" cy="12" r="2.800" />
+  </Svg>
+);
 export const IconUndo = (p: P) => (
   <Svg {...p}>
     <path d="M8 8H5V5M5 8a8 8 0 1 1-1 6" />
