@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15",
+ "generated": "2026-11-16",
  "fonts": [
   {
    "id": "b:google/Battambang-Bold.ttf",
@@ -1803,6 +1803,1600 @@
     "KhmerSoftwareInitiative/khmer-unicode-fonts",
     "740d47dd65360e2e614a57a8ca10e2ec31cf6f61",
     "fonts/v5.0/KhmerOS_sys.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/khmerdigital:ofl/khmerdigital/KhmerDigital-Black.ttf",
+   "family": "Khmer Digital",
+   "style": "Black",
+   "weight": 900,
+   "italic": false,
+   "keys": [
+    "khmerdigital",
+    "khmerdigitalblack"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.000;Glyphs 3.3",
+   "source": "github",
+   "label": "GitHub · khmerdigital",
+   "gh": [
+    "danhhong/khmerdigital",
+    "fa727f94c6dcf62bbe755c7d391425ae5c06aafe",
+    "ofl/khmerdigital/KhmerDigital-Black.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/khmerdigital:ofl/khmerdigital/KhmerDigital-Bold.ttf",
+   "family": "Khmer Digital",
+   "style": "Bold",
+   "weight": 700,
+   "italic": false,
+   "keys": [
+    "khmerdigital",
+    "khmerdigitalbold"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.000;Glyphs 3.3",
+   "source": "github",
+   "label": "GitHub · khmerdigital",
+   "gh": [
+    "danhhong/khmerdigital",
+    "fa727f94c6dcf62bbe755c7d391425ae5c06aafe",
+    "ofl/khmerdigital/KhmerDigital-Bold.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/khmerdigital:ofl/khmerdigital/KhmerDigital-ExtraBold.ttf",
+   "family": "Khmer Digital",
+   "style": "ExtraBold",
+   "weight": 800,
+   "italic": false,
+   "keys": [
+    "khmerdigital",
+    "khmerdigitalextrabold"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.000;Glyphs 3.3",
+   "source": "github",
+   "label": "GitHub · khmerdigital",
+   "gh": [
+    "danhhong/khmerdigital",
+    "fa727f94c6dcf62bbe755c7d391425ae5c06aafe",
+    "ofl/khmerdigital/KhmerDigital-ExtraBold.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/khmerdigital:ofl/khmerdigital/KhmerDigital-ExtraLight.ttf",
+   "family": "Khmer Digital",
+   "style": "ExtraLight",
+   "weight": 200,
+   "italic": false,
+   "keys": [
+    "khmerdigital",
+    "khmerdigitalextralight"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.000;Glyphs 3.3",
+   "source": "github",
+   "label": "GitHub · khmerdigital",
+   "gh": [
+    "danhhong/khmerdigital",
+    "fa727f94c6dcf62bbe755c7d391425ae5c06aafe",
+    "ofl/khmerdigital/KhmerDigital-ExtraLight.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/khmerdigital:ofl/khmerdigital/KhmerDigital-Light.ttf",
+   "family": "Khmer Digital",
+   "style": "Light",
+   "weight": 300,
+   "italic": false,
+   "keys": [
+    "khmerdigital",
+    "khmerdigitallight"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.000;Glyphs 3.3",
+   "source": "github",
+   "label": "GitHub · khmerdigital",
+   "gh": [
+    "danhhong/khmerdigital",
+    "fa727f94c6dcf62bbe755c7d391425ae5c06aafe",
+    "ofl/khmerdigital/KhmerDigital-Light.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/khmerdigital:ofl/khmerdigital/KhmerDigital-Medium.ttf",
+   "family": "Khmer Digital",
+   "style": "Medium",
+   "weight": 500,
+   "italic": false,
+   "keys": [
+    "khmerdigital",
+    "khmerdigitalmedium"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.000;Glyphs 3.3",
+   "source": "github",
+   "label": "GitHub · khmerdigital",
+   "gh": [
+    "danhhong/khmerdigital",
+    "fa727f94c6dcf62bbe755c7d391425ae5c06aafe",
+    "ofl/khmerdigital/KhmerDigital-Medium.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/khmerdigital:ofl/khmerdigital/KhmerDigital-Regular.ttf",
+   "family": "Khmer Digital",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khmerdigital",
+    "khmerdigitalregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.000;Glyphs 3.3",
+   "source": "github",
+   "label": "GitHub · khmerdigital",
+   "gh": [
+    "danhhong/khmerdigital",
+    "fa727f94c6dcf62bbe755c7d391425ae5c06aafe",
+    "ofl/khmerdigital/KhmerDigital-Regular.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/khmerdigital:ofl/khmerdigital/KhmerDigital-SemiBold.ttf",
+   "family": "Khmer Digital",
+   "style": "SemiBold",
+   "weight": 600,
+   "italic": false,
+   "keys": [
+    "khmerdigital",
+    "khmerdigitalsemibold"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.000;Glyphs 3.3",
+   "source": "github",
+   "label": "GitHub · khmerdigital",
+   "gh": [
+    "danhhong/khmerdigital",
+    "fa727f94c6dcf62bbe755c7d391425ae5c06aafe",
+    "ofl/khmerdigital/KhmerDigital-SemiBold.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/khmerdigital:ofl/khmerdigital/KhmerDigital-Thin.ttf",
+   "family": "Khmer Digital",
+   "style": "Thin",
+   "weight": 100,
+   "italic": false,
+   "keys": [
+    "khmerdigital",
+    "khmerdigitalthin"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.000;Glyphs 3.3",
+   "source": "github",
+   "label": "GitHub · khmerdigital",
+   "gh": [
+    "danhhong/khmerdigital",
+    "fa727f94c6dcf62bbe755c7d391425ae5c06aafe",
+    "ofl/khmerdigital/KhmerDigital-Thin.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/Hanuman:Release/ttf/Hanuman-Black.ttf",
+   "family": "Hanuman",
+   "style": "Black",
+   "weight": 900,
+   "italic": false,
+   "keys": [
+    "hanuman",
+    "hanumanblack"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 9.000; ttfautohi",
+   "source": "github",
+   "label": "GitHub · Hanuman",
+   "gh": [
+    "danhhong/Hanuman",
+    "7188b3c0e5722ad0126f045d4eeb895176e12c14",
+    "Release/ttf/Hanuman-Black.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/Hanuman:Release/ttf/Hanuman-Bold.ttf",
+   "family": "Hanuman",
+   "style": "Bold",
+   "weight": 700,
+   "italic": false,
+   "keys": [
+    "hanuman",
+    "hanumanbold"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 9.000; ttfautohi",
+   "source": "github",
+   "label": "GitHub · Hanuman",
+   "gh": [
+    "danhhong/Hanuman",
+    "7188b3c0e5722ad0126f045d4eeb895176e12c14",
+    "Release/ttf/Hanuman-Bold.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/Hanuman:Release/ttf/Hanuman-ExtraBold.ttf",
+   "family": "Hanuman",
+   "style": "ExtraBold",
+   "weight": 800,
+   "italic": false,
+   "keys": [
+    "hanuman",
+    "hanumanextrabold"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 9.000; ttfautohi",
+   "source": "github",
+   "label": "GitHub · Hanuman",
+   "gh": [
+    "danhhong/Hanuman",
+    "7188b3c0e5722ad0126f045d4eeb895176e12c14",
+    "Release/ttf/Hanuman-ExtraBold.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/Hanuman:Release/ttf/Hanuman-ExtraLight.ttf",
+   "family": "Hanuman",
+   "style": "ExtraLight",
+   "weight": 200,
+   "italic": false,
+   "keys": [
+    "hanuman",
+    "hanumanextralight"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 9.000; ttfautohi",
+   "source": "github",
+   "label": "GitHub · Hanuman",
+   "gh": [
+    "danhhong/Hanuman",
+    "7188b3c0e5722ad0126f045d4eeb895176e12c14",
+    "Release/ttf/Hanuman-ExtraLight.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/Hanuman:Release/ttf/Hanuman-Light.ttf",
+   "family": "Hanuman",
+   "style": "Light",
+   "weight": 300,
+   "italic": false,
+   "keys": [
+    "hanuman",
+    "hanumanlight"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 9.000; ttfautohi",
+   "source": "github",
+   "label": "GitHub · Hanuman",
+   "gh": [
+    "danhhong/Hanuman",
+    "7188b3c0e5722ad0126f045d4eeb895176e12c14",
+    "Release/ttf/Hanuman-Light.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/Hanuman:Release/ttf/Hanuman-Medium.ttf",
+   "family": "Hanuman",
+   "style": "Medium",
+   "weight": 500,
+   "italic": false,
+   "keys": [
+    "hanuman",
+    "hanumanmedium"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 9.000; ttfautohi",
+   "source": "github",
+   "label": "GitHub · Hanuman",
+   "gh": [
+    "danhhong/Hanuman",
+    "7188b3c0e5722ad0126f045d4eeb895176e12c14",
+    "Release/ttf/Hanuman-Medium.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/Hanuman:Release/ttf/Hanuman-Regular.ttf",
+   "family": "Hanuman",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "hanuman",
+    "hanumanregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 9.000; ttfautohi",
+   "source": "github",
+   "label": "GitHub · Hanuman",
+   "gh": [
+    "danhhong/Hanuman",
+    "7188b3c0e5722ad0126f045d4eeb895176e12c14",
+    "Release/ttf/Hanuman-Regular.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/Hanuman:Release/ttf/Hanuman-SemiBold.ttf",
+   "family": "Hanuman",
+   "style": "SemiBold",
+   "weight": 600,
+   "italic": false,
+   "keys": [
+    "hanuman",
+    "hanumansemibold"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 9.000; ttfautohi",
+   "source": "github",
+   "label": "GitHub · Hanuman",
+   "gh": [
+    "danhhong/Hanuman",
+    "7188b3c0e5722ad0126f045d4eeb895176e12c14",
+    "Release/ttf/Hanuman-SemiBold.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/Hanuman:Release/ttf/Hanuman-Thin.ttf",
+   "family": "Hanuman",
+   "style": "Thin",
+   "weight": 100,
+   "italic": false,
+   "keys": [
+    "hanuman",
+    "hanumanthin"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 9.000; ttfautohi",
+   "source": "github",
+   "label": "GitHub · Hanuman",
+   "gh": [
+    "danhhong/Hanuman",
+    "7188b3c0e5722ad0126f045d4eeb895176e12c14",
+    "Release/ttf/Hanuman-Thin.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/HanumanUI:Release/HanumanUI-Bold.ttf",
+   "family": "Hanuman UI",
+   "style": "Bold",
+   "weight": 700,
+   "italic": false,
+   "keys": [
+    "hanumanui",
+    "hanumanuibold"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "sans",
+   "version": "Version 1.00 October 6, ",
+   "source": "github",
+   "label": "GitHub · HanumanUI",
+   "gh": [
+    "danhhong/HanumanUI",
+    "626ff78494264134bc87c12603e48c6727c1a679",
+    "Release/HanumanUI-Bold.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/HanumanUI:Release/HanumanUI-Regular.ttf",
+   "family": "Hanuman UI",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "hanumanui",
+    "hanumanuiregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "sans",
+   "version": "Version 1.00 October 6, ",
+   "source": "github",
+   "label": "GitHub · HanumanUI",
+   "gh": [
+    "danhhong/HanumanUI",
+    "626ff78494264134bc87c12603e48c6727c1a679",
+    "Release/HanumanUI-Regular.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/Khla:Release/Khla-Bold.ttf",
+   "family": "Khla",
+   "style": "Bold",
+   "weight": 700,
+   "italic": false,
+   "keys": [
+    "khla",
+    "khlabold"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 7.00 June 17, 20",
+   "source": "github",
+   "label": "GitHub · Khla",
+   "gh": [
+    "danhhong/Khla",
+    "4af3ae928645f79531216e8c14dc7435c1d62211",
+    "Release/Khla-Bold.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/Khla:Release/Khla-Light.ttf",
+   "family": "Khla Light",
+   "style": "Regular",
+   "weight": 300,
+   "italic": false,
+   "keys": [
+    "khlalight",
+    "khlalightregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 7.00 June 30, 20",
+   "source": "github",
+   "label": "GitHub · Khla",
+   "gh": [
+    "danhhong/Khla",
+    "4af3ae928645f79531216e8c14dc7435c1d62211",
+    "Release/Khla-Light.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/Khla:Release/Khla-Regular.ttf",
+   "family": "Khla",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "khla",
+    "khlaregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 7.00 May 22, 201",
+   "source": "github",
+   "label": "GitHub · Khla",
+   "gh": [
+    "danhhong/Khla",
+    "4af3ae928645f79531216e8c14dc7435c1d62211",
+    "Release/Khla-Regular.ttf"
+   ]
+  },
+  {
+   "id": "gh:danhhong/Khla:Release/Khla-SimiBold.ttf",
+   "family": "Khla",
+   "style": "Regular",
+   "weight": 600,
+   "italic": false,
+   "keys": [
+    "khla",
+    "khlaregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 7.00 June 17, 20",
+   "source": "github",
+   "label": "GitHub · Khla",
+   "gh": [
+    "danhhong/Khla",
+    "4af3ae928645f79531216e8c14dc7435c1d62211",
+    "Release/Khla-SimiBold.ttf"
+   ]
+  },
+  {
+   "id": "gh:OpenInstituteCambodia/open-khmer-school:fonts/Dotted/OpenKhmerSchool-Dotted.ttf",
+   "family": "Open Khmer School",
+   "style": "Dotted",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "openkhmerschool",
+    "openkhmerschooldotted"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 1.000",
+   "source": "github",
+   "label": "GitHub · open-khmer-school",
+   "gh": [
+    "OpenInstituteCambodia/open-khmer-school",
+    "9c4354e75b7755160c6a73567f8fdbb791064af8",
+    "fonts/Dotted/OpenKhmerSchool-Dotted.ttf"
+   ]
+  },
+  {
+   "id": "gh:OpenInstituteCambodia/open-khmer-school:fonts/Normal/OpenKhmerSchool-Bold.ttf",
+   "family": "Open Khmer School",
+   "style": "Bold",
+   "weight": 700,
+   "italic": false,
+   "keys": [
+    "openkhmerschool",
+    "openkhmerschoolbold"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 1.420",
+   "source": "github",
+   "label": "GitHub · open-khmer-school",
+   "gh": [
+    "OpenInstituteCambodia/open-khmer-school",
+    "9c4354e75b7755160c6a73567f8fdbb791064af8",
+    "fonts/Normal/OpenKhmerSchool-Bold.ttf"
+   ]
+  },
+  {
+   "id": "gh:OpenInstituteCambodia/open-khmer-school:fonts/Normal/OpenKhmerSchool-Light.ttf",
+   "family": "Open Khmer School",
+   "style": "Light",
+   "weight": 300,
+   "italic": false,
+   "keys": [
+    "openkhmerschool",
+    "openkhmerschoollight"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 1.420",
+   "source": "github",
+   "label": "GitHub · open-khmer-school",
+   "gh": [
+    "OpenInstituteCambodia/open-khmer-school",
+    "9c4354e75b7755160c6a73567f8fdbb791064af8",
+    "fonts/Normal/OpenKhmerSchool-Light.ttf"
+   ]
+  },
+  {
+   "id": "gh:OpenInstituteCambodia/open-khmer-school:fonts/Normal/OpenKhmerSchool-Medium.ttf",
+   "family": "Open Khmer School",
+   "style": "Medium",
+   "weight": 500,
+   "italic": false,
+   "keys": [
+    "openkhmerschool",
+    "openkhmerschoolmedium"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 1.420",
+   "source": "github",
+   "label": "GitHub · open-khmer-school",
+   "gh": [
+    "OpenInstituteCambodia/open-khmer-school",
+    "9c4354e75b7755160c6a73567f8fdbb791064af8",
+    "fonts/Normal/OpenKhmerSchool-Medium.ttf"
+   ]
+  },
+  {
+   "id": "gh:OpenInstituteCambodia/open-khmer-school:fonts/Normal/OpenKhmerSchool-Regular.ttf",
+   "family": "Open Khmer School",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "openkhmerschool",
+    "openkhmerschoolregular"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 1.420",
+   "source": "github",
+   "label": "GitHub · open-khmer-school",
+   "gh": [
+    "OpenInstituteCambodia/open-khmer-school",
+    "9c4354e75b7755160c6a73567f8fdbb791064af8",
+    "fonts/Normal/OpenKhmerSchool-Regular.ttf"
+   ]
+  },
+  {
+   "id": "gh:OpenInstituteCambodia/open-khmer-school:fonts/Normal/OpenKhmerSchool-SemiBold.ttf",
+   "family": "Open Khmer School",
+   "style": "SemiBold",
+   "weight": 600,
+   "italic": false,
+   "keys": [
+    "openkhmerschool",
+    "openkhmerschoolsemibold"
+   ],
+   "scripts": [
+    "khmer"
+   ],
+   "cat": "body",
+   "version": "Version 1.420",
+   "source": "github",
+   "label": "GitHub · open-khmer-school",
+   "gh": [
+    "OpenInstituteCambodia/open-khmer-school",
+    "9c4354e75b7755160c6a73567f8fdbb791064af8",
+    "fonts/Normal/OpenKhmerSchool-SemiBold.ttf"
+   ]
+  },
+  {
+   "id": "gh:silnrsi/font-busra:references/v9.200/Busra-Bold.ttf",
+   "family": "Busra",
+   "style": "Bold",
+   "weight": 700,
+   "italic": false,
+   "keys": [
+    "busra",
+    "busrabold"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 9.200",
+   "source": "github",
+   "label": "GitHub · font-busra",
+   "gh": [
+    "silnrsi/font-busra",
+    "a809ce72403de0513f4d308809b1de3f895ac7da",
+    "references/v9.200/Busra-Bold.ttf"
+   ]
+  },
+  {
+   "id": "gh:silnrsi/font-busra:references/v9.200/Busra-ExtraLight.ttf",
+   "family": "Busra",
+   "style": "ExtraLight",
+   "weight": 200,
+   "italic": false,
+   "keys": [
+    "busra",
+    "busraextralight"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 9.200",
+   "source": "github",
+   "label": "GitHub · font-busra",
+   "gh": [
+    "silnrsi/font-busra",
+    "a809ce72403de0513f4d308809b1de3f895ac7da",
+    "references/v9.200/Busra-ExtraLight.ttf"
+   ]
+  },
+  {
+   "id": "gh:silnrsi/font-busra:references/v9.200/Busra-Light.ttf",
+   "family": "Busra",
+   "style": "Light",
+   "weight": 300,
+   "italic": false,
+   "keys": [
+    "busra",
+    "busralight"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 9.200",
+   "source": "github",
+   "label": "GitHub · font-busra",
+   "gh": [
+    "silnrsi/font-busra",
+    "a809ce72403de0513f4d308809b1de3f895ac7da",
+    "references/v9.200/Busra-Light.ttf"
+   ]
+  },
+  {
+   "id": "gh:silnrsi/font-busra:references/v9.200/Busra-Medium.ttf",
+   "family": "Busra",
+   "style": "Medium",
+   "weight": 500,
+   "italic": false,
+   "keys": [
+    "busra",
+    "busramedium"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 9.200",
+   "source": "github",
+   "label": "GitHub · font-busra",
+   "gh": [
+    "silnrsi/font-busra",
+    "a809ce72403de0513f4d308809b1de3f895ac7da",
+    "references/v9.200/Busra-Medium.ttf"
+   ]
+  },
+  {
+   "id": "gh:silnrsi/font-busra:references/v9.200/Busra-Regular.ttf",
+   "family": "Busra",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "busra",
+    "busraregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 9.200",
+   "source": "github",
+   "label": "GitHub · font-busra",
+   "gh": [
+    "silnrsi/font-busra",
+    "a809ce72403de0513f4d308809b1de3f895ac7da",
+    "references/v9.200/Busra-Regular.ttf"
+   ]
+  },
+  {
+   "id": "gh:silnrsi/font-busra:references/v9.200/Busra-SemiBold.ttf",
+   "family": "Busra",
+   "style": "SemiBold",
+   "weight": 600,
+   "italic": false,
+   "keys": [
+    "busra",
+    "busrasemibold"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 9.200",
+   "source": "github",
+   "label": "GitHub · font-busra",
+   "gh": [
+    "silnrsi/font-busra",
+    "a809ce72403de0513f4d308809b1de3f895ac7da",
+    "references/v9.200/Busra-SemiBold.ttf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/otf/KantumruyPro-Bold.otf",
+   "family": "Kantumruy Pro",
+   "style": "Bold",
+   "weight": 700,
+   "italic": false,
+   "keys": [
+    "kantumruypro",
+    "kantumruyprobold"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/otf/KantumruyPro-Bold.otf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/otf/KantumruyPro-BoldItalic.otf",
+   "family": "Kantumruy Pro",
+   "style": "Bold Italic",
+   "weight": 700,
+   "italic": true,
+   "keys": [
+    "kantumruypro",
+    "kantumruyprobolditalic"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/otf/KantumruyPro-BoldItalic.otf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/otf/KantumruyPro-ExtraLight.otf",
+   "family": "Kantumruy Pro",
+   "style": "ExtraLight",
+   "weight": 200,
+   "italic": false,
+   "keys": [
+    "kantumruypro",
+    "kantumruyproextralight"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/otf/KantumruyPro-ExtraLight.otf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/otf/KantumruyPro-ExtraLightItalic.otf",
+   "family": "Kantumruy Pro",
+   "style": "ExtraLight Italic",
+   "weight": 200,
+   "italic": true,
+   "keys": [
+    "kantumruypro",
+    "kantumruyproextralight",
+    "kantumruyproextralightitalic"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/otf/KantumruyPro-ExtraLightItalic.otf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/otf/KantumruyPro-Italic.otf",
+   "family": "Kantumruy Pro",
+   "style": "Italic",
+   "weight": 400,
+   "italic": true,
+   "keys": [
+    "kantumruypro",
+    "kantumruyproitalic"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/otf/KantumruyPro-Italic.otf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/otf/KantumruyPro-Light.otf",
+   "family": "Kantumruy Pro",
+   "style": "Light",
+   "weight": 300,
+   "italic": false,
+   "keys": [
+    "kantumruypro",
+    "kantumruyprolight"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/otf/KantumruyPro-Light.otf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/otf/KantumruyPro-LightItalic.otf",
+   "family": "Kantumruy Pro",
+   "style": "Light Italic",
+   "weight": 300,
+   "italic": true,
+   "keys": [
+    "kantumruypro",
+    "kantumruyprolight",
+    "kantumruyprolightitalic"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/otf/KantumruyPro-LightItalic.otf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/otf/KantumruyPro-Medium.otf",
+   "family": "Kantumruy Pro",
+   "style": "Medium",
+   "weight": 500,
+   "italic": false,
+   "keys": [
+    "kantumruypro",
+    "kantumruypromedium"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/otf/KantumruyPro-Medium.otf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/otf/KantumruyPro-MediumItalic.otf",
+   "family": "Kantumruy Pro",
+   "style": "Medium Italic",
+   "weight": 500,
+   "italic": true,
+   "keys": [
+    "kantumruypro",
+    "kantumruypromedium",
+    "kantumruypromediumitalic"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/otf/KantumruyPro-MediumItalic.otf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/otf/KantumruyPro-Regular.otf",
+   "family": "Kantumruy Pro",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "kantumruypro",
+    "kantumruyproregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/otf/KantumruyPro-Regular.otf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/otf/KantumruyPro-SemiBold.otf",
+   "family": "Kantumruy Pro",
+   "style": "SemiBold",
+   "weight": 600,
+   "italic": false,
+   "keys": [
+    "kantumruypro",
+    "kantumruyprosemibold"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/otf/KantumruyPro-SemiBold.otf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/otf/KantumruyPro-SemiBoldItalic.otf",
+   "family": "Kantumruy Pro",
+   "style": "SemiBold Italic",
+   "weight": 600,
+   "italic": true,
+   "keys": [
+    "kantumruypro",
+    "kantumruyprosemibold",
+    "kantumruyprosemibolditalic"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/otf/KantumruyPro-SemiBoldItalic.otf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/otf/KantumruyPro-Thin.otf",
+   "family": "Kantumruy Pro",
+   "style": "Thin",
+   "weight": 100,
+   "italic": false,
+   "keys": [
+    "kantumruypro",
+    "kantumruyprothin"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/otf/KantumruyPro-Thin.otf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/otf/KantumruyPro-ThinItalic.otf",
+   "family": "Kantumruy Pro",
+   "style": "Thin Italic",
+   "weight": 100,
+   "italic": true,
+   "keys": [
+    "kantumruypro",
+    "kantumruyprothin",
+    "kantumruyprothinitalic"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/otf/KantumruyPro-ThinItalic.otf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/ttf/KantumruyPro-Bold.ttf",
+   "family": "Kantumruy Pro",
+   "style": "Bold",
+   "weight": 700,
+   "italic": false,
+   "keys": [
+    "kantumruypro",
+    "kantumruyprobold"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002; ttfautohi",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/ttf/KantumruyPro-Bold.ttf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/ttf/KantumruyPro-BoldItalic.ttf",
+   "family": "Kantumruy Pro",
+   "style": "Bold Italic",
+   "weight": 700,
+   "italic": true,
+   "keys": [
+    "kantumruypro",
+    "kantumruyprobolditalic"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002; ttfautohi",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/ttf/KantumruyPro-BoldItalic.ttf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/ttf/KantumruyPro-ExtraLight.ttf",
+   "family": "Kantumruy Pro",
+   "style": "ExtraLight",
+   "weight": 200,
+   "italic": false,
+   "keys": [
+    "kantumruypro",
+    "kantumruyproextralight"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002; ttfautohi",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/ttf/KantumruyPro-ExtraLight.ttf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/ttf/KantumruyPro-ExtraLightItalic.ttf",
+   "family": "Kantumruy Pro",
+   "style": "ExtraLight Italic",
+   "weight": 200,
+   "italic": true,
+   "keys": [
+    "kantumruypro",
+    "kantumruyproextralight",
+    "kantumruyproextralightitalic"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002; ttfautohi",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/ttf/KantumruyPro-ExtraLightItalic.ttf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/ttf/KantumruyPro-Italic.ttf",
+   "family": "Kantumruy Pro",
+   "style": "Italic",
+   "weight": 400,
+   "italic": true,
+   "keys": [
+    "kantumruypro",
+    "kantumruyproitalic"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002; ttfautohi",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/ttf/KantumruyPro-Italic.ttf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/ttf/KantumruyPro-Light.ttf",
+   "family": "Kantumruy Pro",
+   "style": "Light",
+   "weight": 300,
+   "italic": false,
+   "keys": [
+    "kantumruypro",
+    "kantumruyprolight"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002; ttfautohi",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/ttf/KantumruyPro-Light.ttf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/ttf/KantumruyPro-LightItalic.ttf",
+   "family": "Kantumruy Pro",
+   "style": "Light Italic",
+   "weight": 300,
+   "italic": true,
+   "keys": [
+    "kantumruypro",
+    "kantumruyprolight",
+    "kantumruyprolightitalic"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002; ttfautohi",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/ttf/KantumruyPro-LightItalic.ttf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/ttf/KantumruyPro-Medium.ttf",
+   "family": "Kantumruy Pro",
+   "style": "Medium",
+   "weight": 500,
+   "italic": false,
+   "keys": [
+    "kantumruypro",
+    "kantumruypromedium"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002; ttfautohi",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/ttf/KantumruyPro-Medium.ttf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/ttf/KantumruyPro-MediumItalic.ttf",
+   "family": "Kantumruy Pro",
+   "style": "Medium Italic",
+   "weight": 500,
+   "italic": true,
+   "keys": [
+    "kantumruypro",
+    "kantumruypromedium",
+    "kantumruypromediumitalic"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002; ttfautohi",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/ttf/KantumruyPro-MediumItalic.ttf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/ttf/KantumruyPro-Regular.ttf",
+   "family": "Kantumruy Pro",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "kantumruypro",
+    "kantumruyproregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002; ttfautohi",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/ttf/KantumruyPro-Regular.ttf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/ttf/KantumruyPro-SemiBold.ttf",
+   "family": "Kantumruy Pro",
+   "style": "SemiBold",
+   "weight": 600,
+   "italic": false,
+   "keys": [
+    "kantumruypro",
+    "kantumruyprosemibold"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002; ttfautohi",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/ttf/KantumruyPro-SemiBold.ttf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/ttf/KantumruyPro-SemiBoldItalic.ttf",
+   "family": "Kantumruy Pro",
+   "style": "SemiBold Italic",
+   "weight": 600,
+   "italic": true,
+   "keys": [
+    "kantumruypro",
+    "kantumruyprosemibold",
+    "kantumruyprosemibolditalic"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002; ttfautohi",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/ttf/KantumruyPro-SemiBoldItalic.ttf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/ttf/KantumruyPro-Thin.ttf",
+   "family": "Kantumruy Pro",
+   "style": "Thin",
+   "weight": 100,
+   "italic": false,
+   "keys": [
+    "kantumruypro",
+    "kantumruyprothin"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002; ttfautohi",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/ttf/KantumruyPro-Thin.ttf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/ttf/KantumruyPro-ThinItalic.ttf",
+   "family": "Kantumruy Pro",
+   "style": "Thin Italic",
+   "weight": 100,
+   "italic": true,
+   "keys": [
+    "kantumruypro",
+    "kantumruyprothin",
+    "kantumruyprothinitalic"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002; ttfautohi",
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/ttf/KantumruyPro-ThinItalic.ttf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/variable/KantumruyPro-Italic[wght].ttf",
+   "family": "Kantumruy Pro",
+   "style": "Italic",
+   "weight": 400,
+   "italic": true,
+   "keys": [
+    "kantumruypro",
+    "kantumruyproitalic"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "axes": {
+    "wght": [
+     100,
+     700
+    ]
+   },
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/variable/KantumruyPro-Italic[wght].ttf"
+   ]
+  },
+  {
+   "id": "gh:sovichet/kantumruy-pro:fonts/variable/KantumruyPro[wght].ttf",
+   "family": "Kantumruy Pro",
+   "style": "Regular",
+   "weight": 400,
+   "italic": false,
+   "keys": [
+    "kantumruypro",
+    "kantumruyproregular"
+   ],
+   "scripts": [
+    "khmer",
+    "latin"
+   ],
+   "cat": "body",
+   "version": "Version 1.002",
+   "axes": {
+    "wght": [
+     100,
+     700
+    ]
+   },
+   "source": "github",
+   "label": "GitHub · kantumruy-pro",
+   "gh": [
+    "sovichet/kantumruy-pro",
+    "dfca20df61b64efa148539a0103e52189aca78bc",
+    "fonts/variable/KantumruyPro[wght].ttf"
    ]
   }
  ]

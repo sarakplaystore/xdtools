@@ -46,6 +46,19 @@ pdfjs/standard_fonts/ - copied from the pdfjs-dist package at build time
 Fonts fetched on demand
 -----------------------
 When a PDF uses a font that is not listed above, the editor can download
-it from the Khmer Software Initiative archive or from Google Fonts (both
-via GitHub). Those files stay under their own licences (LGPL / OFL /
-Apache 2.0, as stated in each font).
+it from public repositories. None of these files are bundled with the
+site; they are fetched when needed, verified against the PDF, and kept in
+the browser's cache. Each file stays under its own licence, as stated in
+its name table and licence file (LGPL / OFL / Apache 2.0 / UFL):
+
+  Khmer Software Initiative  khmer-unicode-fonts (LGPL)
+  Danh Hong                  khmerdigital, Hanuman, HanumanUI, Khla (OFL)
+  Open Institute Cambodia    open-khmer-school (OFL)
+  SIL International          font-busra (OFL)
+  Sovichet                   kantumruy-pro (OFL)
+  Google Fonts               google/fonts, pinned to a commit (OFL / Apache / UFL)
+
+"Scrape fonts until matched" can also search GitHub and npm live for a
+font that is not in that list. Those results are community-published and
+are only used after the file itself has been checked against the PDF.
+Their licence is the one stated in the file or package they come from.

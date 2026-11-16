@@ -390,6 +390,18 @@ export function LineCard(props: CommonProps & { line: Line; lines: Line[]; geom:
               <button type="button" className="ecard__link" onClick={onOpenFonts}>
                 {t('p.s.fix')}
               </button>
+              {' · '}
+              <button
+                type="button"
+                className="ecard__link"
+                disabled={!doc.library.onlineEnabled}
+                onClick={() => {
+                  const dfs = line.fonts.map((f) => doc.docFont(f)).filter((d): d is NonNullable<typeof d> => !!d);
+                  if (dfs.length) void store.scrapeFonts(dfs);
+                }}
+              >
+                {t('scrape.font')}
+              </button>
             </>
           )}
         </span>

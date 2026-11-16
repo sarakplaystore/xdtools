@@ -4,17 +4,18 @@
  *   1. fonts the user uploaded in this session
  *   2. fonts installed on the device (Local Font Access API, when granted)
  *   3. fonts bundled with the site (Khmer OS family + popular Khmer Google fonts)
- *   4. the Khmer OS archive on GitHub (older/newer versions of the family)
+ *   4. open font archives on GitHub (Khmer OS versions, Khmer Digital, Noto, …)
  *   5. the Google Fonts catalogue (all ~2,000 families)
+ *   6. fonts discovered on demand from GitHub and npm when scraping for a match
  *
  * Remote files are fetched from public mirrors of the upstream repositories.
  */
 import catalogJson from '../../data/font-catalog.json';
 import { clamp } from '../util';
-import { LoadedFont } from './hb';
+import { LoadedFont, unwrapFontBytes } from './hb';
 import { ParsedFontName, normKey, splitCamel, styleFromName } from './names';
 
-export type FontSource = 'upload' | 'device' | 'bundled' | 'github' | 'google';
+export type FontSource = 'upload' | 'device' | 'bundled' | 'github' | 'google' | 'npm';
 export type FontCategory = 'body' | 'sans' | 'serif' | 'mono' | 'display' | 'hand';
 
 export interface CatalogEntry {
@@ -31,8 +32,14 @@ export interface CatalogEntry {
   label: string;
   /** Site-relative asset path (bundled fonts). */
   url?: string;
-  /** [owner/repo, commit, path] for fonts downloaded on demand. */
+  /** [owner/repo, commitOrBranch, path] for fonts downloaded from GitHub mirrors. */
   gh?: [string, string, string];
+  /** [packageName, version, path] for fonts downloaded from npm mirrors. */
+  npm?: [string, string, string];
+  /** Face index inside a `.ttc` font collection (0 when omitted). */
+  faceIndex?: number;
+  /** Pinned variable-font axis coordinates discovered by outline matching. */
+  vars?: Record<string, number>;
   axes?: Record<string, [number, number]>;
   version?: string;
   /** Byte length of an uploaded file (to recognise the same upload again). */
@@ -46,6 +53,17 @@ export interface RemoteSource {
   headers?: Record<string, string>;
 }
 
+export interface FetchRemoteOptions {
+  /** Whether to store a successful download in persistent cache (default true). */
+  cache?: boolean;
+  signal?: AbortSignal;
+}
+
+export interface FetchJsonOptions {
+  headers?: Record<string, string>;
+  signal?: AbortSignal;
+}
+
 export interface GoogleManifest {
   ref: string;
   families: Record<string, [string, string[]]>;
@@ -55,7 +73,15 @@ export interface LibraryEnv {
   /** Reads a file shipped with the site, e.g. "fonts/khmeros/KhmerOS.ttf". */
   readAsset(path: string): Promise<Uint8Array>;
   /** Downloads the first reachable source; omit to disable online lookups. */
-  fetchRemote?(sources: RemoteSource[]): Promise<Uint8Array>;
+  fetchRemote?(sources: RemoteSource[], opts?: FetchRemoteOptions): Promise<Uint8Array>;
+  /** Queries a public JSON index (GitHub / jsDelivr / npm) during on-demand scraping. */
+  fetchJson?(url: string, opts?: FetchJsonOptions): Promise<unknown>;
+  /** Persists a matched font file so future opens work offline without re-scraping. */
+  cacheRemote?(url: string, bytes: Uint8Array): Promise<void>;
+  /** Restores catalogue entries matched during earlier scraping sessions. */
+  loadSavedEntries?(): CatalogEntry[];
+  /** Remembers a newly matched remote catalogue entry for future opens. */
+  saveEntry?(entry: CatalogEntry): void;
   loadGoogleManifest?(): Promise<GoogleManifest>;
 }
 
@@ -65,8 +91,8 @@ export interface Candidate {
   alias: boolean;
 }
 
-/** Fonts that are not freely available → open fonts that stand in for them. */
-const ALIASES: Record<string, string[]> = {
+/** Fonts that are not freely available (or carry variant spellings) → open fonts to try. */
+export const ALIASES: Record<string, string[]> = {
   arial: ['liberationsans', 'arimo'], helvetica: ['liberationsans', 'arimo'], helveticaneue: ['liberationsans', 'arimo'],
   arialnarrow: ['liberationsans'], arialunicodems: ['liberationsans'],
   timesnewroman: ['tinos'], times: ['tinos'], timesroman: ['tinos'], timesnewromanps: ['tinos'],
@@ -100,32 +126,83 @@ const LIBERATION: CatalogEntry[] = [
   label: 'Built-in · Liberation', url: `pdfjs/standard_fonts/LiberationSans-${style}.ttf`,
 }));
 
-export function githubSources(repo: string, ref: string, path: string): RemoteSource[] {
-  const enc = path.split('/').map(encodeURIComponent).join('/');
-  return [
-    { url: `https://cdn.jsdelivr.net/gh/${repo}@${ref}/${enc}` },
-    { url: `https://raw.githubusercontent.com/${repo}/${ref}/${enc}` },
-    { url: `https://api.github.com/repos/${repo}/contents/${enc}?ref=${ref}`, headers: { Accept: 'application/vnd.github.raw' } },
+function encodePath(path: string): string {
+  return path.replace(/^\/+/, '').split('/').filter(Boolean).map(encodeURIComponent).join('/');
+}
+
+export function githubSources(repo: string, ref: string, path: string, includeApi = true): RemoteSource[] {
+  const enc = encodePath(path);
+  const encRef = encodeURIComponent(ref);
+  const list: RemoteSource[] = [
+    { url: `https://cdn.jsdelivr.net/gh/${repo}@${encRef}/${enc}` },
+    { url: `https://raw.githubusercontent.com/${repo}/${encRef}/${enc}` },
   ];
+  if (includeApi) {
+    list.push({ url: `https://api.github.com/repos/${repo}/contents/${enc}?ref=${encRef}`, headers: { Accept: 'application/vnd.github.raw' } });
+  }
+  return list;
+}
+
+export function npmSources(pkg: string, version: string, path: string): RemoteSource[] {
+  const encPkg = pkg.split('/').map(encodeURIComponent).join('/');
+  const encVer = encodeURIComponent(version);
+  const encPath = encodePath(path);
+  return [
+    { url: `https://cdn.jsdelivr.net/npm/${encPkg}@${encVer}/${encPath}` },
+    { url: `https://unpkg.com/${encPkg}@${encVer}/${encPath}` },
+  ];
+}
+
+export function entrySources(entry: CatalogEntry, includeApi = true): RemoteSource[] | null {
+  if (entry.gh) return githubSources(entry.gh[0], entry.gh[1], entry.gh[2], includeApi);
+  if (entry.npm) return npmSources(entry.npm[0], entry.npm[1], entry.npm[2]);
+  return null;
+}
+
+const SOURCE_RANK: Record<FontSource, number> = {
+  upload: 0,
+  device: 1,
+  bundled: 2,
+  github: 3,
+  google: 4,
+  npm: 5,
+};
+
+function varsKey(vars: Record<string, number>): string {
+  const keys = Object.keys(vars).sort();
+  return keys.map((k) => `${k}=${vars[k]}`).join(',');
 }
 
 export class FontLibrary {
   private catalog: CatalogEntry[];
   private extra: CatalogEntry[] = [];
+  private saved: CatalogEntry[] = [];
   private bytes = new Map<string, Promise<Uint8Array>>();
   private fonts = new Map<string, LoadedFont>();
   private loading = new Map<string, Promise<LoadedFont>>();
   private google: Promise<GoogleManifest | null> | null = null;
-  /** Entries created on the fly (Google Fonts files), so they can be found again by id. */
+  /** Entries created on the fly (Google Fonts / scraped files), so they can be found again by id. */
   private dynamic = new Map<string, CatalogEntry>();
 
   constructor(private env: LibraryEnv) {
     const raw = (catalogJson as { fonts: Omit<CatalogEntry, 'url'>[] }).fonts as unknown as CatalogEntry[];
     this.catalog = raw.map((e) => (e.source === 'bundled' && e.url ? { ...e, url: `fonts/${e.url}` } : e)).concat(LIBERATION);
+    try {
+      const prev = env.loadSavedEntries?.() ?? [];
+      for (const e of prev) {
+        if (e?.id && (e.gh || e.npm) && !this.catalog.some((c) => c.id === e.id)) this.saved.push(e);
+      }
+    } catch {
+      /* ignore corrupt storage */
+    }
   }
 
   get onlineEnabled(): boolean {
     return !!this.env.fetchRemote;
+  }
+
+  get searchEnabled(): boolean {
+    return !!this.env.fetchJson;
   }
 
   /** Bundled fonts offered in the "add text" font picker. */
@@ -137,11 +214,21 @@ export class FontLibrary {
     return this.extra;
   }
 
-  byId(id: string): CatalogEntry | undefined {
-    return this.extra.find((e) => e.id === id) ?? this.catalog.find((e) => e.id === id) ?? this.dynamic.get(id);
+  /** Every locally known catalogue entry (user, built-in, GitHub archive, previously scraped). */
+  allEntries(): CatalogEntry[] {
+    return [...this.extra, ...this.catalog, ...this.saved];
   }
 
-  /** Registers a font file the user picked. Throws if it is not a usable font. */
+  byId(id: string): CatalogEntry | undefined {
+    return (
+      this.extra.find((e) => e.id === id) ??
+      this.catalog.find((e) => e.id === id) ??
+      this.saved.find((e) => e.id === id) ??
+      this.dynamic.get(id)
+    );
+  }
+
+  /** Registers a font file the user picked (TTF, OTF, TTC). Throws if it is not a usable font. */
   addUpload(bytes: Uint8Array, fileName: string): CatalogEntry {
     const again = this.extra.find((e) => e.source === 'upload' && e.size === bytes.length && e.id.endsWith(`:${fileName}`));
     if (again) return again;
@@ -159,6 +246,11 @@ export class FontLibrary {
     this.extra.unshift(entry);
     this.fonts.set(`${entry.id}|`, font);
     return entry;
+  }
+
+  /** Like `addUpload`, also accepting WOFF 1.0 wrappers. */
+  async addUploadAsync(bytes: Uint8Array, fileName: string): Promise<CatalogEntry> {
+    return this.addUpload(await unwrapFontBytes(bytes), fileName);
   }
 
   /** Registers fonts reported by the browser's Local Font Access API. */
@@ -179,13 +271,14 @@ export class FontLibrary {
     return added;
   }
 
-  private async manifest(): Promise<GoogleManifest | null> {
+  async googleManifest(): Promise<GoogleManifest | null> {
     if (!this.env.loadGoogleManifest) return null;
     if (!this.google) this.google = this.env.loadGoogleManifest().catch(() => null);
     return this.google;
   }
 
-  private googleEntries(m: GoogleManifest, key: string, weight: number, italic: boolean): CatalogEntry[] {
+  /** Entries for a Google Fonts family, ordered by style/weight closeness (`limit` omitted = all files). */
+  googleEntriesFor(m: GoogleManifest, key: string, weight = 400, italic = false, limit?: number): CatalogEntry[] {
     const fam = m.families[key];
     if (!fam) return [];
     const dir = `${{ o: 'ofl', a: 'apache', u: 'ufl' }[fam[0]] ?? 'ofl'}/${key}`;
@@ -194,27 +287,34 @@ export class FontLibrary {
       let fw = 400;
       let fi = false;
       let stem = file.replace(/\.(ttf|otf)$/, '');
+      let style = 'Regular';
       let variable = false;
       if (vf) {
         variable = vf[3].includes('wght');
         fi = !!vf[2];
         stem = vf[1];
+        style = fi ? 'Italic' : 'Regular';
       } else {
         const dash = stem.lastIndexOf('-');
         if (dash > 0) {
-          const st = styleFromName(stem.slice(dash + 1));
+          style = stem.slice(dash + 1);
+          const st = styleFromName(style);
           fw = st.weight;
           fi = st.italic;
           stem = stem.slice(0, dash);
+        } else if (/italic|oblique/i.test(stem)) {
+          fi = true;
+          style = 'Italic';
         }
       }
       const penalty = (fi === italic ? 0 : 1000) + (variable ? 0 : Math.abs(fw - weight));
-      return { file, fw: variable ? weight : fw, fi, stem, penalty };
+      return { file, fw: variable ? weight : fw, fi, stem, style, penalty };
     });
     scored.sort((a, b) => a.penalty - b.penalty);
-    return scored.slice(0, 2).map((s) => {
+    const chosen = limit !== undefined ? scored.slice(0, limit) : scored;
+    return chosen.map((s) => {
       const entry: CatalogEntry = {
-        id: `g:${dir}/${s.file}`, family: splitCamel(s.stem), style: s.fi ? 'Italic' : 'Regular', weight: s.fw, italic: s.fi,
+        id: `g:${dir}/${s.file}`, family: splitCamel(s.stem), style: s.style, weight: s.fw, italic: s.fi,
         keys: [key], scripts: [], cat: 'body', source: 'google', label: 'Google Fonts',
         gh: ['google/fonts', m.ref, `${dir}/${s.file}`],
       };
@@ -224,9 +324,9 @@ export class FontLibrary {
   }
 
   private byKey(key: string, weight: number, italic: boolean): CatalogEntry[] {
-    const hits = [...this.extra, ...this.catalog].filter((e) => e.keys.includes(key));
+    const hits = this.allEntries().filter((e) => e.keys.includes(key));
     const rank = (e: CatalogEntry) =>
-      ({ upload: 0, device: 1, bundled: 2, github: 3, google: 4 })[e.source] * 10000 + (e.italic === italic ? 0 : 1000) + (e.axes?.wght ? 0 : Math.abs(e.weight - weight));
+      SOURCE_RANK[e.source] * 10000 + (e.italic === italic ? 0 : 1000) + (e.axes?.wght ? 0 : Math.abs(e.weight - weight));
     return hits.sort((a, b) => rank(a) - rank(b));
   }
 
@@ -242,15 +342,16 @@ export class FontLibrary {
       }
     };
     const online = opts.online !== false && this.onlineEnabled;
-    const m = online ? await this.manifest() : null;
+    const m = online ? await this.googleManifest() : null;
+    const allowed = (e: CatalogEntry) => online || (!e.gh && !e.npm);
     for (const key of name.keys) {
-      add(this.byKey(key, name.weight, name.italic).filter((e) => online || !e.gh), false);
-      if (m) add(this.googleEntries(m, key, name.weight, name.italic), false);
+      add(this.byKey(key, name.weight, name.italic).filter(allowed), false);
+      if (m) add(this.googleEntriesFor(m, key, name.weight, name.italic, 2), false);
     }
     for (const key of name.keys) {
       for (const alt of ALIASES[key] ?? []) {
-        add(this.byKey(alt, name.weight, name.italic).filter((e) => online || !e.gh), true);
-        if (m) add(this.googleEntries(m, alt, name.weight, name.italic), true);
+        add(this.byKey(alt, name.weight, name.italic).filter(allowed), true);
+        if (m) add(this.googleEntriesFor(m, alt, name.weight, name.italic, 2), true);
       }
     }
     return out;
@@ -258,8 +359,8 @@ export class FontLibrary {
 
   /** Google Fonts entries for a family key (online only), e.g. "notosansthai". */
   async googleFamily(key: string, weight = 400, italic = false): Promise<CatalogEntry[]> {
-    const m = this.onlineEnabled ? await this.manifest() : null;
-    return m ? this.googleEntries(m, key, weight, italic) : [];
+    const m = this.onlineEnabled ? await this.googleManifest() : null;
+    return m ? this.googleEntriesFor(m, key, weight, italic, 2) : [];
   }
 
   /** Last-resort fonts for a script when nothing with the right name exists. */
@@ -279,12 +380,72 @@ export class FontLibrary {
     return list.filter((e): e is CatalogEntry => !!e);
   }
 
+  /** Fetches a candidate font transiently without filling RAM caches or persistent storage on miss. */
+  async probeRemote(sources: RemoteSource[], signal?: AbortSignal): Promise<Uint8Array> {
+    if (!this.env.fetchRemote) throw new Error('Font source unavailable');
+    const raw = await this.env.fetchRemote(sources, { cache: false, signal });
+    return unwrapFontBytes(raw);
+  }
+
+  /** Reads the raw bytes of an entry without persisting speculative remote downloads. */
+  async probeEntry(entry: CatalogEntry, signal?: AbortSignal): Promise<Uint8Array> {
+    const cached = this.bytes.get(entry.id);
+    if (cached) return cached;
+    if (entry.getBytes) return unwrapFontBytes(await entry.getBytes());
+    if (entry.url) return this.bytesOf(entry);
+    const src = entrySources(entry);
+    if (src) return this.probeRemote(src, signal);
+    throw new Error('Font source unavailable');
+  }
+
+  /** Fetches a public JSON metadata endpoint (returns `null` when unavailable). */
+  async queryJson(url: string, opts?: FetchJsonOptions): Promise<unknown> {
+    if (!this.env.fetchJson) return null;
+    return this.env.fetchJson(url, opts);
+  }
+
+  /**
+   * Keeps a font discovered during scraping: registers it in the library, stores its decoded
+   * instance for reuse during editing/saving, and caches remote winners for offline re-opens.
+   */
+  adopt(entry: CatalogEntry, font: LoadedFont, bytes: Uint8Array, persist = false): CatalogEntry {
+    this.dynamic.set(entry.id, entry);
+    this.bytes.set(entry.id, Promise.resolve(bytes));
+    const vKey = Object.keys(font.variations).length ? varsKey(font.variations) : '';
+    this.fonts.set(`${entry.id}|${vKey}`, font);
+    if (!vKey) this.fonts.set(`${entry.id}|`, font);
+    if (persist && (entry.gh || entry.npm)) {
+      const src = entrySources(entry, false);
+      if (src?.[0] && this.env.cacheRemote) void this.env.cacheRemote(src[0].url, bytes).catch(() => {});
+      if (!this.catalog.some((c) => c.id === entry.id) && !this.saved.some((s) => s.id === entry.id)) {
+        const clean: CatalogEntry = {
+          id: entry.id, family: entry.family, style: entry.style, weight: entry.weight, italic: entry.italic,
+          keys: entry.keys, scripts: entry.scripts, cat: entry.cat, source: entry.source, label: entry.label,
+          ...(entry.gh ? { gh: entry.gh } : {}),
+          ...(entry.npm ? { npm: entry.npm } : {}),
+          ...(entry.faceIndex ? { faceIndex: entry.faceIndex } : {}),
+          ...(entry.vars && Object.keys(entry.vars).length ? { vars: entry.vars } : {}),
+          ...(entry.axes ? { axes: entry.axes } : {}),
+          ...(entry.version ? { version: entry.version } : {}),
+        };
+        this.saved.unshift(clean);
+        try {
+          this.env.saveEntry?.(clean);
+        } catch {
+          /* storage full or blocked */
+        }
+      }
+    }
+    return entry;
+  }
+
   private bytesOf(entry: CatalogEntry): Promise<Uint8Array> {
     let p = this.bytes.get(entry.id);
     if (!p) {
-      if (entry.getBytes) p = entry.getBytes();
+      const src = entrySources(entry);
+      if (entry.getBytes) p = entry.getBytes().then(unwrapFontBytes);
       else if (entry.url) p = this.env.readAsset(entry.url);
-      else if (entry.gh && this.env.fetchRemote) p = this.env.fetchRemote(githubSources(...entry.gh));
+      else if (src && this.env.fetchRemote) p = this.env.fetchRemote(src).then(unwrapFontBytes);
       else p = Promise.reject(new Error('Font source unavailable'));
       this.bytes.set(entry.id, p);
       p.catch(() => this.bytes.delete(entry.id));
@@ -292,7 +453,7 @@ export class FontLibrary {
     return p;
   }
 
-  /** Loads a catalogue font, instancing variable fonts at the requested weight. */
+  /** Loads a catalogue font, instancing variable fonts at the requested weight / saved axes. */
   async load(entry: CatalogEntry, weight?: number): Promise<LoadedFont> {
     const baseKey = `${entry.id}|`;
     let base = this.fonts.get(baseKey);
@@ -303,7 +464,7 @@ export class FontLibrary {
       if (!pending) {
         pending = this.bytesOf(entry)
           .then((bytes) => {
-            const font = new LoadedFont(bytes);
+            const font = new LoadedFont(bytes, {}, entry.faceIndex ?? 0);
             this.fonts.set(baseKey, font);
             return font;
           })
@@ -312,14 +473,19 @@ export class FontLibrary {
       }
       base = await pending;
     }
-    const axis = base.axes.wght;
-    if (!axis) return base;
-    const w = clamp(Math.round(weight ?? entry.weight ?? 400), axis.min, axis.max);
-    const key = `${entry.id}|${w}`;
+    const axisKeys = Object.keys(base.axes);
+    if (!axisKeys.length) return base;
+    const vars: Record<string, number> = {};
+    for (const tag of axisKeys) {
+      const ax = base.axes[tag];
+      const raw = tag === 'wght'
+        ? Math.round(weight ?? entry.vars?.wght ?? entry.weight ?? ax.default)
+        : (entry.vars?.[tag] ?? ax.default);
+      vars[tag] = clamp(raw, ax.min, ax.max);
+    }
+    const key = `${entry.id}|${varsKey(vars)}`;
     let inst = this.fonts.get(key);
     if (!inst) {
-      const vars: Record<string, number> = {};
-      for (const tag in base.axes) vars[tag] = tag === 'wght' ? w : base.axes[tag].default;
       inst = base.withVariations(vars);
       this.fonts.set(key, inst);
     }
