@@ -5,7 +5,8 @@ import { EditorDocument, type ScrapeProgress } from '../src/engine/document';
 import { LoadedFont, sameOutline, unwrapFontBytes } from '../src/engine/font/hb';
 import { bestVariationFont } from '../src/engine/font/match';
 import { FontLibrary, type GoogleManifest, type LibraryEnv } from '../src/engine/font/library';
-import { fuzzyFamilies, keyVariants, relevantFile, scriptsInText } from '../src/engine/font/scrape';
+import { fuzzyFamilies, githubFonts, keyVariants, relevantFile, scriptsInText } from '../src/engine/font/scrape';
+import { parseFontName } from '../src/engine/font/names';
 import type { PdfFont } from '../src/engine/pdf/fonts';
 import { ROOT, nodeLibrary } from './helpers';
 
@@ -233,5 +234,42 @@ describe('scrape until matched (remote mirror only)', () => {
     const res = await doc.scrapeFont(df);
     expect(res.exact).toBe(true);
     expect(res.probed).toBe(0);
+  });
+});
+
+function discoveryEnv(json: (url: string) => unknown, calls: string[]): LibraryEnv {
+  return {
+    readAsset: async () => { throw new Error('none'); },
+    fetchRemote: async () => { throw new Error('none'); },
+    fetchJson: async (url) => { calls.push(url); return json(url); },
+  };
+}
+
+describe('discovery', () => {
+  test('a relevant font late in an archive listing is still found', async () => {
+    const decoys = Array.from({ length: 19 }, (_, i) => ({ path: `Aaa/KhmerOSDecoy${String(i).padStart(2, '0')}.ttf`, type: 'blob', size: 1000 }));
+    const target = { path: 'Zzz/KhmerOSFooBar.ttf', type: 'blob', size: 1000 };
+    const calls: string[] = [];
+    const lib = new FontLibrary(discoveryEnv((url) => {
+      if (url.includes('/git/trees/')) return { tree: [...decoys, target] };
+      if (url.includes('/repos/')) return { default_branch: 'main' };
+      return { items: [], objects: [] };
+    }, calls));
+    const out = await githubFonts(lib, parseFontName('KhmerOSFooBar'), ['khmr']);
+    expect(out.map((e) => e.gh?.[2])).toContain('Zzz/KhmerOSFooBar.ttf');
+  });
+
+  test('archive listings are fetched once per session, not once per font', async () => {
+    const calls: string[] = [];
+    const lib = new FontLibrary(discoveryEnv((url) => {
+      if (url.includes('/git/trees/')) return { tree: [] };
+      if (url.includes('/repos/')) return { default_branch: 'main' };
+      return { items: [], objects: [] };
+    }, calls));
+    for (const n of ['KhmerOSAlpha', 'KhmerOSBeta', 'KhmerOSGamma', 'KhmerOSDelta']) await githubFonts(lib, parseFontName(n), ['khmr']);
+    const treeCalls = calls.filter((u) => u.includes('/git/trees/')).length;
+    const repoCalls = calls.filter((u) => /\/repos\/[^/]+\/[^/?]+$/.test(u)).length;
+    expect(treeCalls).toBeLessThanOrEqual(5);
+    expect(repoCalls).toBeLessThanOrEqual(5);
   });
 });
