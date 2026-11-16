@@ -161,12 +161,12 @@ function buildClusters(glyphs: GlyphRef[], matchOf: MatchLookup): Cluster[] {
         const gs = glyphs.slice(i + c.start, i + c.end);
         // A glyph with no known text cannot be spelled out by the guess: the guess would silently
         // lose it (a subscript consonant or vowel disappears from the line).
-        const unknownGlyph = gs.some((_, k) => !unshaper.textOf(gids[c.start + k]));
+        const unknownGlyph = match.evidence === 'outline' && gs.some((_, k) => !unshaper.textOf(gids[c.start + k]));
         if (c.verified) push(c.text, gs, true);
         else if (match.evidence !== 'outline' || unknownGlyph || gs.every((_, k) => gids[c.start + k] === -1)) {
           // Not provable from the glyphs: fall back to the PDF's own Unicode table.
           const text = gs.map((x) => x.show.font.unicode(x.code) ?? '').join('');
-          push(text, gs, text !== '' && !COMPLEX.test(text));
+          push(text, gs, !unknownGlyph && text !== '' && !COMPLEX.test(text));
         } else push(c.text, gs, false);
       }
       i = j;
