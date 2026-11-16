@@ -4,7 +4,9 @@
 
 /* ---------- toolbar ---------- */
 .tb {
-  position: sticky; top: 6px; z-index: 30; display: grid; gap: 6px; margin: 10px 0 8px; padding: 8px;
+  position: sticky; top: 6px; z-index: 30; display: grid; gap: 6px; margin: 10px 0 8px;
+  /* The editor page's header is static and scrolls away, so the toolbar can sit at the top. */
+  padding: 8px max(8px, env(safe-area-inset-right)) 8px max(8px, env(safe-area-inset-left));
   background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(10px); border: 1px solid var(--line); border-radius: 16px;
   box-shadow: 0 6px 20px rgba(15, 20, 25, 0.08);
 }
@@ -50,6 +52,8 @@
 
 /* ---------- pages ---------- */
 .stage { overflow-x: auto; padding: 14px 2px 380px; background: #eceff3; border-radius: 16px; -webkit-overflow-scrolling: touch; }
+/* The workspace fills the screen: nothing may sit under the notch or the home indicator. */
+.ws { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
 .pgwrap { position: relative; margin: 0 auto 18px; }
 .pg__num { margin: 0 0 4px 2px; font-size: 11.5px; color: var(--ink-3); font-weight: 600; }
 .pg { position: relative; background: #fff; box-shadow: 0 1px 3px rgba(15, 20, 25, 0.14), 0 8px 24px rgba(15, 20, 25, 0.08); }
@@ -74,11 +78,33 @@
 /* ---------- edit card ---------- */
 .ecard {
   --w: min(450px, calc(var(--stage-w, 100vw) - 10px));
-  position: absolute; z-index: 5; top: var(--y, 0); left: clamp(0px, var(--x, 0px), calc(100% - var(--w))); width: var(--w);
-  display: grid; grid-template-columns: minmax(0, 1fr); gap: 9px; padding: 11px; background: #fff; border: 1px solid #d9dee6; border-radius: 16px;
+  position: absolute; z-index: 5; left: clamp(0px, var(--x, 0px), calc(100% - var(--w))); width: var(--w);
+  /* --lift is measured in the page so the card stays inside the visible area (keyboard included). */
+  top: calc(var(--y, 0) + var(--lift, 0px));
+  /* Taller than the visible area (small phone, landscape, keyboard up): scroll inside the card
+     instead of running off the bottom. `--card-max` is the room the script measured between the
+     toolbar and the bottom of the screen. */
+  max-height: min(var(--card-max, 620px), calc(var(--vh, 100vh) - 24px), 620px);
+  overflow-y: auto; overscroll-behavior: contain;
+  --ecard-pad: 11px;
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 9px; padding: var(--ecard-pad); background: #fff; border: 1px solid #d9dee6; border-radius: 16px;
   box-shadow: 0 2px 6px rgba(15, 20, 25, 0.08), 0 18px 48px rgba(15, 20, 25, 0.24); scroll-margin: 190px 0 20px; animation: card-in 0.16s ease;
 }
 @keyframes card-in { from { opacity: 0; transform: translateY(-4px); } }
+/* The page it belongs to paints below the floating toolbar (z-index 30). While the card is pinned
+   it has to cover the toolbar instead, so lift the whole page — a fixed child cannot escape it. */
+.stage:has(.ecard.is-pinned) .pg.is-active { z-index: 70; }
+/* The only room left is under the toolbar (landscape phone with the keyboard open, or a keyboard
+   that covers most of a small screen): the card leaves the page area and covers the bottom of the
+   screen instead, so every control stays reachable by scrolling inside it. */
+.ecard.is-pinned {
+  /* Starts where the room starts (below the floating toolbar) and runs to the bottom edge. */
+  position: fixed; left: max(8px, env(safe-area-inset-left)); right: max(8px, env(safe-area-inset-right));
+  top: var(--pin-top, 8px); bottom: auto; width: auto;
+  max-height: max(calc(var(--vh, 100vh) - var(--pin-top, 8px) - max(8px, env(safe-area-inset-bottom))), 120px);
+  z-index: 60;
+  box-shadow: 0 18px 50px rgba(15, 20, 25, 0.28);
+}
 .ecard__text {
   display: block; width: 100%; min-height: 48px; resize: none; padding: 7px 11px; border: 1.5px solid var(--blue); border-radius: 11px; background: #fff;
   font: inherit; font-size: 17px; line-height: 1.9; color: var(--ink); outline: none; box-shadow: 0 0 0 3px rgba(47, 107, 255, 0.14); overflow-y: auto;
@@ -92,7 +118,17 @@
 .ecard__link { padding: 0; border: 0; background: none; color: var(--blue); font-size: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 .ecard__row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 9px 12px; }
 .ecard__hint { flex: 1 1 140px; font-size: 12px; color: var(--ink-3); line-height: 1.4; }
-.ecard__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; padding-top: 2px; }
+/* The card scrolls inside itself on a short screen, so the Done row must never scroll away: it
+   sticks to the bottom edge and bleeds to the card's sides so content cannot show through. */
+.ecard__actions {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 7px;
+  position: sticky; bottom: calc(-1 * var(--ecard-pad)); z-index: 2;
+  margin: 0 calc(-1 * var(--ecard-pad)) calc(-1 * var(--ecard-pad));
+  padding: 8px var(--ecard-pad) calc(var(--ecard-pad) - 1px);
+  background: #fff;
+}
+/* A hairline only helps when the row is actually stuck over content. */
+.ecard.is-scrolling .ecard__actions { border-top: 1px solid var(--line); }
 .ecard__actions .btn { padding: 0 11px; }
 .field { display: grid; gap: 3px; min-width: 0; }
 .field--grow { flex: 1 1 150px; }
@@ -162,6 +198,21 @@
 @media (max-width: 374px) {
   .seg--tools button span { display: none; }
   .seg--tools button { padding: 0 12px; }
+  .ecard { --ecard-pad: 9px; gap: 7px; padding: var(--ecard-pad); }
+  .ecard__text { min-height: 44px; padding: 6px 9px; }
+  .ecard__actions .btn { padding: 0 9px; }
+  .swatch { width: 24px; height: 24px; }
+  .swatches { gap: 6px; }
+  /* Three buttons do not fit one line here; the confirm button drops under them, on the right. */
+  .ecard__actions .btn--dark { margin-left: auto; }
+}
+/* Landscape phones: height, not width, is the scarce thing. */
+@media (max-height: 480px) and (orientation: landscape) {
+  .tb { position: sticky; top: 0; margin-top: 4px; }
+  /* Same measured cap as everywhere else — never taller than the room left under the toolbar. */
+  .ecard { max-height: min(var(--card-max, 620px), calc(var(--vh, 100vh) - 16px), 620px); }
+  .ecard__text { min-height: 40px; font-size: 16px; }
+  .stage { padding-bottom: 240px; }
 }
 @media (pointer: coarse) {
   .select, .stepper input { font-size: 16px; }
