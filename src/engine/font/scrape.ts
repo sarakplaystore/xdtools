@@ -232,7 +232,9 @@ export async function githubFonts(lib: FontLibrary, name: ParsedFontName, script
     if (signal?.aborted) break;
     const info = (await lib.queryJson(`https://api.github.com/repos/${full}`, { signal })) as { default_branch?: string } | null;
     if (!info?.default_branch) continue;
-    out.push(...(await repoFonts(lib, full, info.default_branch, () => true, 12, signal)));
+    // Only files whose names resemble this font: an archive holds hundreds of files, and taking
+    // the first few in listing order would silently skip the one that matches.
+    out.push(...(await repoFonts(lib, full, info.default_branch, (p) => relevantFile(p, keys), 40, signal)));
   }
   return dedupe(out);
 }

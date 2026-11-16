@@ -159,6 +159,9 @@ export function entrySources(entry: CatalogEntry, includeApi = true): RemoteSour
   return null;
 }
 
+/** How long an unavailable public lookup is skipped before it is tried again. */
+const JSON_RETRY_MS = 60_000;
+
 const SOURCE_RANK: Record<FontSource, number> = {
   upload: 0,
   device: 1,
@@ -183,6 +186,11 @@ export class FontLibrary {
   private google: Promise<GoogleManifest | null> | null = null;
   /** Entries created on the fly (Google Fonts / scraped files), so they can be found again by id. */
   private dynamic = new Map<string, CatalogEntry>();
+  /**
+   * Public JSON lookups made while scraping, shared by every font in the session. Successful
+   * answers are kept; empty ones (rate limit, network, not found) are retried after JSON_RETRY_MS.
+   */
+  private jsonMemo = new Map<string, { at: number; empty: boolean; value: Promise<unknown> }>();
 
   constructor(private env: LibraryEnv) {
     const raw = (catalogJson as { fonts: Omit<CatalogEntry, 'url'>[] }).fonts as unknown as CatalogEntry[];
@@ -398,10 +406,32 @@ export class FontLibrary {
     throw new Error('Font source unavailable');
   }
 
-  /** Fetches a public JSON metadata endpoint (returns `null` when unavailable). */
+  /**
+   * Fetches a public JSON metadata endpoint (returns `null` when unavailable). Identical requests
+   * share one answer, so scraping many fonts does not repeat the same GitHub calls: anonymous
+   * GitHub API access is limited to 60 requests an hour per visitor.
+   */
   async queryJson(url: string, opts?: FetchJsonOptions): Promise<unknown> {
     if (!this.env.fetchJson) return null;
-    return this.env.fetchJson(url, opts);
+    const hit = this.jsonMemo.get(url);
+    if (hit && (!hit.empty || Date.now() - hit.at < JSON_RETRY_MS)) return hit.value;
+    const entry: { at: number; empty: boolean; value: Promise<unknown> } = {
+      at: Date.now(),
+      empty: false,
+      value: Promise.resolve(null),
+    };
+    entry.value = this.env.fetchJson(url, opts).then(
+      (v) => {
+        entry.empty = v == null;
+        return v ?? null;
+      },
+      (err: unknown) => {
+        this.jsonMemo.delete(url);
+        throw err;
+      },
+    );
+    this.jsonMemo.set(url, entry);
+    return entry.value;
   }
 
   /**
