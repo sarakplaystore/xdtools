@@ -582,6 +582,15 @@ export class EditorStore {
     return guessAlign(line, this.lines(page), this.snap.geoms[page] ?? this.snap.geoms[0] ?? null);
   }
 
+  /** The edited document as bytes, for printing. Unlike a download, this leaves the file unsaved. */
+  async renderForPrint(): Promise<Uint8Array | null> {
+    const s = this.session;
+    if (!s) return null;
+    const edits = this.snap.edits;
+    const res = await this.exclusive(() => s.doc.build(toDocEdits(edits), { compress: false }));
+    return res.bytes;
+  }
+
   async exportPdf(): Promise<{ bytes: Uint8Array; name: string } | null> {
     const s = this.session;
     if (!s || this.snap.saving) return null;

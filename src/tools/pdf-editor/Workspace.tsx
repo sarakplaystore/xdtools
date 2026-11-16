@@ -2,13 +2,14 @@
 import { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import { useI18n } from '../../app/i18n';
 import { setNavigationGuard } from '../../app/router';
-import { IconBack, IconCheck, IconCursor, IconDownload, IconFont, IconMinus, IconPlus, IconRedo, IconTextAdd, IconUndo, IconWarn } from '../../components/icons';
+import { IconBack, IconCheck, IconCursor, IconDownload, IconEye, IconFont, IconMinus, IconPlus, IconPrint, IconRedo, IconTextAdd, IconUndo, IconWarn } from '../../components/icons';
 import { FontPanel } from './FontPanel';
 import { ScrapeBar } from './ScrapeBar';
 import { qualityOf, visibleFonts } from './fontquality';
 import { PageView } from './PageView';
 import { BoxState, RGB, Target, isNoop, withPage } from './edits';
 import { screenRightDir } from './geometry';
+import { printPdf, reservePrintTab } from './print';
 import type { EditorStore, Snapshot } from './store';
 
 const ZOOMS = [0.5, 0.75, 1, 1.25, 1.5, 2, 3];
@@ -24,6 +25,8 @@ export function Workspace({ store, snap }: { store: EditorStore; snap: Snapshot 
   const [fontsOpen, setFontsOpen] = useState(false);
   const [avail, setAvail] = useState(0);
   const [flash, setFlash] = useState(false);
+  const [preview, setPreview] = useState(false);
+  const [printing, setPrinting] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
   const selectedRef = useRef<Target | null>(null);
   const snapRef = useRef(snap);
@@ -119,6 +122,14 @@ export function Workspace({ store, snap }: { store: EditorStore; snap: Snapshot 
 
   const openFonts = useCallback(() => setFontsOpen(true), []);
 
+  const previewRef = useRef(false);
+  previewRef.current = preview;
+  const togglePreview = useCallback(() => {
+    select(null);
+    setMode('edit');
+    setPreview((p) => !p);
+  }, [select]);
+
   // ---- keyboard
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -134,6 +145,7 @@ export function Workspace({ store, snap }: { store: EditorStore; snap: Snapshot 
       } else if (e.key === 'Escape') {
         if (fontsOpen) setFontsOpen(false);
         else if (selectedRef.current) select(null);
+        else if (previewRef.current) setPreview(false);
         else setMode('edit');
       }
     };
@@ -160,6 +172,24 @@ export function Workspace({ store, snap }: { store: EditorStore; snap: Snapshot 
   const closeFile = () => {
     if (atRisk && !window.confirm(t('ed.unsaved'))) return;
     store.close();
+  };
+
+  const print = async () => {
+    if (printing) return;
+    // Reserve the tab during the tap (touch devices) before the document is built.
+    const tab = reservePrintTab();
+    select(null);
+    setPrinting(true);
+    try {
+      const bytes = await store.renderForPrint();
+      if (bytes) printPdf(bytes, tab);
+      else tab?.close();
+    } catch (err) {
+      console.error(err);
+      tab?.close();
+    } finally {
+      setPrinting(false);
+    }
   };
 
   const download = async () => {
@@ -195,7 +225,7 @@ export function Workspace({ store, snap }: { store: EditorStore; snap: Snapshot 
   const status = snap.buildFailed ? t('ed.failed') : snap.busy ? t('ed.updating') : flash ? `✓ ${t('ed.saved')}` : snap.changes ? `${snap.changes} ${t(snap.changes === 1 ? 'ed.change' : 'ed.changes')}` : t('ed.nochanges');
 
   return (
-    <div className="ws">
+    <div className={'ws' + (preview ? ' is-preview' : '')}>
       <div className="tb">
         <div className="tb__row">
           <button type="button" className="iconbtn" onClick={closeFile} title={t('ed.close')} aria-label={t('ed.close')}>
@@ -207,17 +237,35 @@ export function Workspace({ store, snap }: { store: EditorStore; snap: Snapshot 
               {snap.pageCount} {snap.pageCount === 1 ? t('f.page') : t('ed.pages')} · {status}
             </span>
           </div>
-          <button type="button" className={`btn btn--sm btn--ghost tb__fonts is-${tone}`} onClick={openFonts}>
-            <IconFont size={18} />
-            <span className="tb__label">{t('ed.fonts')}</span>
-            <i className={'dot' + (snap.searching ? ' is-busy' : '')} />
+          {!preview && (
+            <button type="button" className={`btn btn--sm btn--ghost tb__fonts is-${tone}`} onClick={openFonts}>
+              <IconFont size={18} />
+              <span className="tb__label">{t('ed.fonts')}</span>
+              <i className={'dot' + (snap.searching ? ' is-busy' : '')} />
+            </button>
+          )}
+          <button
+            type="button"
+            className={'iconbtn tb__preview' + (preview ? ' is-on' : '')}
+            onClick={togglePreview}
+            aria-pressed={preview}
+            title={t('ed.preview')}
+            aria-label={t('ed.preview')}
+          >
+            <IconEye size={19} />
           </button>
-          <button type="button" className="btn btn--sm btn--dark" onClick={download} disabled={snap.saving}>
-            <IconDownload size={16} />
-            {snap.saving ? t('ed.downloading') : t('ed.download')}
+          <button type="button" className="iconbtn" onClick={print} disabled={printing || snap.saving} title={printing ? t('ed.printing') : t('ed.print')} aria-label={t('ed.print')}>
+            <IconPrint size={19} />
           </button>
+          {!preview && (
+            <button type="button" className="btn btn--sm btn--dark" onClick={download} disabled={snap.saving}>
+              <IconDownload size={16} />
+              {snap.saving ? t('ed.downloading') : t('ed.download')}
+            </button>
+          )}
         </div>
         <div className="tb__row tb__row--tools">
+          {!preview && (
           <div className="seg seg--tools" role="group">
             <button type="button" className={mode === 'edit' ? 'is-on' : ''} onClick={() => setMode('edit')} aria-pressed={mode === 'edit'}>
               <IconCursor size={18} />
@@ -236,15 +284,18 @@ export function Workspace({ store, snap }: { store: EditorStore; snap: Snapshot 
               <span>{t('ed.tool.add')}</span>
             </button>
           </div>
+          )}
           <span className="grow" />
-          <div className="tb__group">
-            <button type="button" className="iconbtn" disabled={!snap.canUndo} onClick={() => store.undo()} title={t('ed.undo')} aria-label={t('ed.undo')}>
-              <IconUndo size={19} />
-            </button>
-            <button type="button" className="iconbtn" disabled={!snap.canRedo} onClick={() => store.redo()} title={t('ed.redo')} aria-label={t('ed.redo')}>
-              <IconRedo size={19} />
-            </button>
-          </div>
+          {!preview && (
+            <div className="tb__group">
+              <button type="button" className="iconbtn" disabled={!snap.canUndo} onClick={() => store.undo()} title={t('ed.undo')} aria-label={t('ed.undo')}>
+                <IconUndo size={19} />
+              </button>
+              <button type="button" className="iconbtn" disabled={!snap.canRedo} onClick={() => store.redo()} title={t('ed.redo')} aria-label={t('ed.redo')}>
+                <IconRedo size={19} />
+              </button>
+            </div>
+          )}
           <div className="tb__group">
             <button type="button" className="iconbtn" disabled={zoom <= ZOOMS[0]} onClick={() => stepZoom(-1)} title={t('ed.zoom.out')} aria-label={t('ed.zoom.out')}>
               <IconMinus size={19} />
@@ -259,6 +310,16 @@ export function Workspace({ store, snap }: { store: EditorStore; snap: Snapshot 
         </div>
       </div>
 
+      {preview ? (
+        <div className="ws__preview" role="status">
+          <p>
+            <IconEye size={16} /> {t('ed.preview.note')}
+          </p>
+          <button type="button" className="btn btn--sm btn--dark" onClick={togglePreview}>
+            {t('ed.preview.exit')}
+          </button>
+        </div>
+      ) : (
       <div className="ws__info">
         <p className={'ws__hint' + (mode === 'add' ? ' is-add' : '')}>{mode === 'add' ? t('ed.hint.add') : t('ed.hint.edit')}</p>
         {shown.length > 0 && (
@@ -282,6 +343,7 @@ export function Workspace({ store, snap }: { store: EditorStore; snap: Snapshot 
         )}
         {doc.encrypted && <p className="ws__enc">{t('ed.encrypted')}</p>}
       </div>
+      )}
 
       <div ref={stageRef} className="stage" style={{ '--stage-w': `${avail}px` } as CSSProperties}>
         {avail > 0 &&
@@ -298,6 +360,7 @@ export function Workspace({ store, snap }: { store: EditorStore; snap: Snapshot 
               outcomes={view.outcomes.get(i)}
               edits={snap.edits[i]}
               mode={mode}
+              preview={preview}
               selected={selected && selected.page === i ? selected : null}
               fontsVersion={snap.fontsVersion}
               frugal={snap.pageCount > 12}
