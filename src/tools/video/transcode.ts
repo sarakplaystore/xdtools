@@ -164,7 +164,10 @@ async function pickEncoderConfig(plan: OutputPlan): Promise<VideoEncoderConfig> 
       bitrate: plan.bitrate,
       framerate: plan.fps,
       avc: { format: 'avc' },
-      latencyMode: 'quality',
+      // Realtime mode skips the slow look-ahead search of quality mode: the output is a little
+      // larger at the same bitrate, but the encode runs several times faster.
+      latencyMode: 'realtime',
+      hardwareAcceleration: 'prefer-hardware',
     };
     const support = await VideoEncoder.isConfigSupported(config);
     if (support.supported && support.config) return support.config;
@@ -211,6 +214,8 @@ export async function shrinkVideo(file: Blob, opts: ShrinkOptions): Promise<Shri
     codedWidth: v.info.track_width,
     codedHeight: v.info.track_height,
     description: v.description,
+    hardwareAcceleration: 'prefer-hardware',
+    optimizeForLatency: true,
   };
   const decodeSupport = await VideoDecoder.isConfigSupported(decoderConfig);
   if (!decodeSupport.supported) throw new VideoError('codec', v.info.codec);
@@ -262,6 +267,7 @@ export async function shrinkVideo(file: Blob, opts: ShrinkOptions): Promise<Shri
 
   let keyAt = Number.NEGATIVE_INFINITY;
   let done = 0;
+  let lastReported = 0;
   const total = v.samples.length;
   const onFrame = (frame: VideoFrame) => {
     try {
@@ -282,7 +288,12 @@ export async function shrinkVideo(file: Blob, opts: ShrinkOptions): Promise<Shri
       encoder.encode(out, { keyFrame: key });
       out.close();
       done++;
-      opts.onProgress?.(Math.min(1, done / total));
+      // Report at most every half percent: a progress update per frame costs a re-render each time.
+      const ratio = Math.min(1, done / total);
+      if (ratio - lastReported >= 0.005 || ratio === 1) {
+        lastReported = ratio;
+        opts.onProgress?.(ratio);
+      }
     } catch (e) {
       fail(e);
     } finally {
@@ -347,38 +358,69 @@ function i420Buffer(w: number, h: number): { buf: Uint8Array; layout: PlaneLayou
 }
 
 /**
+ * Per-channel contributions to Y, U and V, precomputed once per byte value. The sums below add
+ * these up, so the per-pixel work is a few table lookups instead of float maths on every pixel.
+ */
+const YUV_TABLES = (() => {
+  const yScale = 219 / 255;
+  const cScale = 224 / 255;
+  const make = (k: number) => new Float64Array(256).map((_, i) => i * k);
+  return {
+    yR: make(0.2126 * yScale),
+    yG: make(0.7152 * yScale),
+    yB: make(0.0722 * yScale),
+    uR: make(-0.1146 * cScale),
+    uG: make(-0.3854 * cScale),
+    uB: make(0.5 * cScale),
+    vR: make(0.5 * cScale),
+    vG: make(-0.4542 * cScale),
+    vB: make(-0.0458 * cScale),
+  };
+})();
+
+/**
  * Converts RGBA to I420 with the exact BT.709 limited-range equations. Done here, not by the
  * encoder, so the colours in the output match the source instead of shifting toward green.
  * Chroma is the average of each 2×2 block. w and h must be even.
  */
 export function rgbaToI420(rgba: Uint8ClampedArray, w: number, h: number, out: Uint8Array): void {
+  const { yR, yG, yB, uR, uG, uB, vR, vG, vB } = YUV_TABLES;
   const ySize = w * h;
   const cw = w >> 1;
-  const cSize = cw * (h >> 1);
-  const yOff = 0;
   const uOff = ySize;
-  const vOff = ySize + cSize;
-  const yScale = 219 / 255;
-  const cScale = 224 / 255;
+  const vOff = ySize + cw * (h >> 1);
   for (let y = 0; y < h; y += 2) {
+    const row0 = y * w * 4;
+    const row1 = row0 + w * 4;
+    const yo0 = y * w;
+    const yo1 = yo0 + w;
+    const co = (y >> 1) * cw;
     for (let x = 0; x < w; x += 2) {
-      let sumU = 0;
-      let sumV = 0;
-      for (let dy = 0; dy < 2; dy++) {
-        for (let dx = 0; dx < 2; dx++) {
-          const p = ((y + dy) * w + (x + dx)) * 4;
-          const r = rgba[p];
-          const g = rgba[p + 1];
-          const b = rgba[p + 2];
-          const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-          out[yOff + (y + dy) * w + x + dx] = Math.round(16 + luma * yScale);
-          sumU += (-0.1146 * r - 0.3854 * g + 0.5 * b) * cScale;
-          sumV += (0.5 * r - 0.4542 * g - 0.0458 * b) * cScale;
-        }
-      }
-      const ci = (y >> 1) * cw + (x >> 1);
-      out[uOff + ci] = clampByte(Math.round(128 + sumU / 4));
-      out[vOff + ci] = clampByte(Math.round(128 + sumV / 4));
+      // The four pixels of the 2×2 block: a b on the top row, c d below.
+      const a = row0 + x * 4;
+      const c = row1 + x * 4;
+      const ra = rgba[a];
+      const ga = rgba[a + 1];
+      const ba = rgba[a + 2];
+      const rb = rgba[a + 4];
+      const gb = rgba[a + 5];
+      const bb = rgba[a + 6];
+      const rc = rgba[c];
+      const gc = rgba[c + 1];
+      const bc = rgba[c + 2];
+      const rd = rgba[c + 4];
+      const gd = rgba[c + 5];
+      const bd = rgba[c + 6];
+      // 16.5 + x truncated = round(16 + x) for the positive values Y takes.
+      out[yo0 + x] = (16.5 + yR[ra] + yG[ga] + yB[ba]) | 0;
+      out[yo0 + x + 1] = (16.5 + yR[rb] + yG[gb] + yB[bb]) | 0;
+      out[yo1 + x] = (16.5 + yR[rc] + yG[gc] + yB[bc]) | 0;
+      out[yo1 + x + 1] = (16.5 + yR[rd] + yG[gd] + yB[bd]) | 0;
+      const sumU = uR[ra] + uG[ga] + uB[ba] + uR[rb] + uG[gb] + uB[bb] + uR[rc] + uG[gc] + uB[bc] + uR[rd] + uG[gd] + uB[bd];
+      const sumV = vR[ra] + vG[ga] + vB[ba] + vR[rb] + vG[gb] + vB[bb] + vR[rc] + vG[gc] + vB[bc] + vR[rd] + vG[gd] + vB[bd];
+      const ci = co + (x >> 1);
+      out[uOff + ci] = clampByte((128.5 + sumU / 4) | 0);
+      out[vOff + ci] = clampByte((128.5 + sumV / 4) | 0);
     }
   }
 }
